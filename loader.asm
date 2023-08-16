@@ -71,7 +71,7 @@ LOOP3:
   LDA KBD         ; Load character.
   EOR #$80        ; Clear bit 7
 
-;  JSR PRBYTE
+  JSR ECHO
 
 ; Search for entry
   TAX
