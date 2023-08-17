@@ -17,6 +17,22 @@ PRBYTE = $FFDC
   LDA #$D
   JSR ECHO
 
+  LDA #<BANNER
+  STA PTR
+  LDA #>BANNER
+  STA PTR+1
+  LDY #$00
+LOOP0:
+  LDA (PTR),Y
+  CMP #$00
+  BEQ START
+  INY
+  JSR ECHO
+  JMP LOOP0
+BANNER:
+    .byte $0d, $0d
+    .byte " **** APPLE 1 DEMO LOADER ****"
+    .byte $0d, $00
 START:
   ; DISPLAY MENU
   LDA #<MENU
