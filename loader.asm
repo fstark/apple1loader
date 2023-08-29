@@ -1,4 +1,4 @@
-* = $280
+;* = $280
 
 PTR = $30
 ADRS = $32
@@ -246,78 +246,47 @@ PROMPT:
     .byte $0d
     .byte "Your Choice -> "
     .byte $00
-MENU:
-    .byte 01        ; assembly
-    .word $FF00, 0, 0
-    .byte "WWozMon"
-    .byte $0d
-
-    .byte 01        ; assembly
-    .word $E000, 0, 0
-    .byte "BBasic"
-    .byte $0d
-
-    .byte 01        ; assembly
-    .word $E2B3, 0, 0
-    .byte "BBasic (Warm)"
-    .byte $0d
-
-    .byte 01        ; assembly
-    .word EXAMPLE1, 0, 0
-    .byte "1Hello, World (ASM ROM)"
-    .byte $0d    
-
-    .byte 02        ; assembly copy
-    .word EXAMPLE2, EXAMPLE3-EXAMPLE2, $0280
-    .byte "2Hello, World (ASM RAM)"
-    .byte $0d    
-
-    .byte 03        ; Basic
-    .word $9000, $0280, $0000
-    .byte "3Hello, World (BASIC)"
-    .byte $0d
-    .byte 00
 
 ; Relocatable assembly
 ; Can be executed in-place
-EXAMPLE1:
-EX1PTR = $30
-    LDA #<EX1DATA
-    STA EX1PTR
-    LDA #>EX1DATA
-    STA EX1PTR+1
-    LDY #$0
-EX1LOOP:
-    LDA (PTR),Y
-    JSR $FFEF
-    INY
-    TYA
-    CMP #16
-    BNE EX1LOOP
-    RTS
-EX1DATA:
-    .byte "Hello, World ROM"
+; EXAMPLE1:
+; EX1PTR = $30
+;     LDA #<EX1DATA
+;     STA EX1PTR
+;     LDA #>EX1DATA
+;     STA EX1PTR+1
+;     LDY #$0
+; EX1LOOP:
+;     LDA (PTR),Y
+;     JSR $FFEF
+;     INY
+;     TYA
+;     CMP #16
+;     BNE EX1LOOP
+;     RTS
+; EX1DATA:
+;     .byte "Hello, World ROM"
 
 ; Non-relocatable assembly
 ; Must be executed from $280
-EXAMPLE2:
-EX2PTR = $30
-    JMP $283
-    LDA #<EX2DATA
-    STA EX2PTR
-    LDA #>EX2DATA
-    STA EX2PTR+1
-    LDY #$0
-EX2LOOP:
-    LDA (PTR),Y
-    JSR $FFEF
-    INY
-    TYA
-    CMP #16
-    BNE EX2LOOP
-    RTS
-EX2DATA:
-    .byte "Hello, World RAM"
+; EXAMPLE2:
+; EX2PTR = $30
+;     JMP $283
+;     LDA #<EX2DATA
+;     STA EX2PTR
+;     LDA #>EX2DATA
+;     STA EX2PTR+1
+;     LDY #$0
+; EX2LOOP:
+;     LDA (PTR),Y
+;     JSR $FFEF
+;     INY
+;     TYA
+;     CMP #16
+;     BNE EX2LOOP
+;     RTS
+; EX2DATA:
+;     .byte "Hello, World RAM"
 
 
-EXAMPLE3:
+; EXAMPLE3:
