@@ -1,0 +1,15 @@
+{
+	"map" : "56789AEF",
+	"loader" :
+	{
+		"menu_adrs" : "0x5200"
+	},
+	"content" :
+	[
+		{
+			"type" : "exec",
+			"file" : "loader.bin",
+			"adrs" : "0x5000"
+		}
+	]
+}
