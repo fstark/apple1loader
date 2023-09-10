@@ -1,5 +1,7 @@
 ;* = $280
 
+*= $7000
+
 PTR = $30
 ADRS = $32
 
@@ -12,6 +14,9 @@ KBD    = $D010	; Keyboard I/O
 KBDCR  = $D011
 ECHO   = $FFEF
 PRBYTE = $FFDC
+
+
+TBASIC=3
 
   ; CR
   LDA #$D
@@ -136,15 +141,9 @@ FOUND:
   BEQ TYPE1
   CMP #2        ; Assembly copy + jump
   BEQ TYPE2
-  CMP #3        ; Basic
+  CMP #TBASIC   ; Basic
   BEQ TYPE3
   JMP START     ; ### Should print err
-
-CONT1:  
-  LDA #$2e
-  JSR ECHO
-  JMP CONT1
-
 
 TYPE1:
   INY
@@ -153,8 +152,7 @@ TYPE1:
   INY
   LDA (PTR),Y
   STA ADRS+1
-  JSR GOADRS
-  JMP START
+  JMP (ADRS)
 
 TYPE2:
   
@@ -187,15 +185,83 @@ TYPE2:
   STA ADRS+1
 ;  JSR DBGHEX
 
-
-;  JMP $FF00
   JSR MEMCPY
-  JSR GOADRS
-  JMP START
+
+  JMP (ADRS)
 
 TYPE3:
-  ; Not implemented yet
-  JMP TYPE3
+  INY
+
+  ; Copy the $4A-$FF region
+
+  ; Source of data
+  LDA (PTR),Y
+  STA FROM
+  INY
+  LDA (PTR),Y
+  STA FROM+1
+
+  ; Copy $B6 bytes
+  LDA #($100-$4A)
+  STA SIZE
+  LDA #$00
+  STA SIZE+1
+
+  ; Copy in $4A
+  LDA #$4A
+  STA TO
+  LDA #$00
+  STA TO+1
+
+  TYA
+  PHA
+  ; Copy ZP
+  JSR MEMCPY
+  PLA
+  TAY
+
+  ; Copy the rest
+
+  ; Get the original source
+  DEY
+  LDA (PTR),Y
+  STA FROM
+  INY
+  LDA (PTR),Y
+  STA FROM+1
+
+  ; Add $B6
+  CLC
+  LDA #$B6
+  ADC FROM
+  STA FROM
+  BCC SKIP
+  INC FROM+1
+SKIP:
+
+  ; Get size
+  INY
+  LDA (PTR),Y
+  STA SIZE
+  INY
+  LDA (PTR),Y
+  STA SIZE+1
+
+  ; Get destination
+  INY
+  LDA (PTR),Y
+  STA TO
+  STA ADRS
+  INY
+  LDA (PTR),Y
+  STA TO+1
+  STA ADRS+1
+
+  ; Copy source
+  JSR MEMCPY
+
+  ; RUN PROGRAM
+  JMP $EFEC
 
 ; FROM = source start address
 ;   TO = destination start address
@@ -221,20 +287,6 @@ MD3      LDA (FROM),Y ; move the remaining bytes
          BNE MD3
 MD4      RTS
 
-
-
-
-
-
-
-
-
-
-
-
-  ; Jumps into an address
-GOADRS:
-  JMP (ADRS)
 
 DBGHEX:
   PHA
@@ -290,3 +342,6 @@ PROMPT:
 
 
 ; EXAMPLE3:
+
+MENU:
+  ; The menu needs to be just after the loader

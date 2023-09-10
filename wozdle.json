@@ -1,0 +1,15 @@
+{
+	"map" : "5789ABCE",
+	"loader" :
+	{
+		"keys" : ""
+	},
+	"content" :
+	[
+		{
+			"adrs" : "0x7000",
+			"type" : "exec",
+			"path" : "software/WOZDLE"
+		}
+	]
+}

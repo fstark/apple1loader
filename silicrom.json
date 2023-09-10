@@ -2,8 +2,7 @@
 	"map" : "5789ABCE",
 	"loader" :
 	{
-		"menu_adrs" : "0x7700",
-		"keys" : "1W2B3R4M5N6 7 8 9 0"
+		"keys" : "1W2B3R4M5N6F7C8U9 0"
 	},
 	"content" :
 	[
@@ -14,84 +13,113 @@
 			"key"  : "1"
 		},
 		{
-			"type" : "exec",
-			"path" : "software/PASART",
+			"type" : "copy",
+			"path" : "software/PASART.FIXED",
 			"menu" : "PASART",
-			"key"  : "7"
+			"key"  : "7",
+			"load" : "0x0300"
 		},
 		{
 			"type" : "exec",
 			"path" : "dist/loader.bin",
-			"adrs" : "0x7000"
+			"adrs" : "0x7000",
+			"loader" : true
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/CELLULAR",
 			"menu" : "CELLULAR",
-			"key"  : "8"
+			"key"  : "8",
+			"load" : "0x0300"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/MASTERMIND",
 			"menu" : "MASTERMIND",
-			"key"  : "9"
+			"key"  : "9",
+			"load" : "0x0300"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/MEMORYTEST",
-			"menu" : "4K MEMORY TEST",
+			"patch": "patches/4KMEMTEST",
+			"menu" : "4K MEMTEST",
 			"key"  : "N"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/LUNARLANDER",
 			"adrs" : "0x8000",
 			"menu" : "LUNAR LANDER",
-			"key"  : "2"
+			"key"  : "2",
+			"load" : "0x0300"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/CODEBREAKER.REP",
-			"menu" : "CODE BREAKER",
+			"menu" : "CODE BRK",
 			"key"  : "3"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/LITTLETOWER",
 			"menu" : "LITTLE TOWER",
-			"key"  : "4"
+			"key"  : "4",
+			"load" : "0x0300"
 		},
 		{
-			"type" : "exec",
-			"path" : "software/TYPINGTUTOR",
-			"menu" : "TYPE TUTOR",
-			"key"  : "5"
+			"type" : "basic",
+			"path" : "software/WUMPUS.FIXED",
+			"menu" : "WUMPIS",
+			"key"  : "U",
+			"load" : "0x0300",
+			"run"  : "0xefec"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/MICROCHESS2",
 			"menu" : "MICROCHESS",
-			"key"  : "6"
+			"key"  : "6",
+			"load" : "0x1000"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/NIM.04AF",
+			"patch": "patches/NIM",
 			"menu" : "NIM",
-			"key"  : "0"
+			"key"  : "0",
+			"load" : "0x0300"
 		},
 		{
-			"type" : "exec",
+			"type" : "copy",
 			"path" : "software/MEMORYTEST",
-			"menu" : "8K MEMORY TEST",
+			"patch": "patches/8KMEMTEST",
+			"menu" : "8K MEMTEST",
 			"key"  : "M"
 		},
 		{
 			"type" : "exec",
 			"path" : "software/BASIC",
 			"adrs" : "0xE000",
-			"menu" : "INTEGER BASIC",
+			"menu" : "BASIC",
 			"key"  : "B"
 		},
+		{	"type" : "exec",
+			"path" : "src/CRC8",
+			"adrs" : "0x7E00",
+			"menu" : "CRC",
+			"key"  : "C"	
+		},
+		{
+			"type" : "exec",
+			"path" : "src/WOZMON2",
+			"adrs" : "0x7F00",
+			"menu" : "WOZMON2",
+			"key"  : "F"
+		}
+	],
+	"comment" :
+	[
 		{
 			"type" : "exec",
 			"path" : "software/WOZMON",
