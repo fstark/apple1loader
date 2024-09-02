@@ -57,7 +57,7 @@ dist/loader.bin: obj/loader.o65 bin2woz.py
 	cp obj/loader.o65 dist/loader.bin
 	python bin2woz.py obj/loader.o65 280 > dist/loader.txt
 
-%.rom: %.json
+%.rom: %.json obj/loader.o65
 	python makerom.py $< $@
 
 # Define a pattern rule to build .inc files from their respective sources

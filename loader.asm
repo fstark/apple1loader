@@ -31,23 +31,23 @@ LOOP0:
   LDA (PTR),Y
   CMP #$00
   BEQ START
-  INY
   JSR ECHO
+  ; increment 16 bits value in PTR, PTR+1
+  CLC
+  LDA PTR
+  ADC #$01
+  STA PTR
+  BCC LOOP0
+  INC PTR+1
   JMP LOOP0
-BANNER:
-    .byte $0d, $0d
-    .byte " **** APPLE 1 DEMO LOADER ****"
-    .byte $0d, $00
+
 START:
   ; DISPLAY MENU
   LDA #<MENU
   STA PTR
   LDA #>MENU
   STA PTR+1
-  LDA #$0d
   LDY #$0
-  JSR ECHO
-  JSR ECHO
 ENTRY:
   LDA (PTR),Y
   BEQ DONE
@@ -294,8 +294,24 @@ DBGHEX:
   PLA
   RTS
 
-PROMPT:
+BANNER:
+;          12345678901234567890123456789012345678901234567890
+    .byte "    ___    ____  ____  __    ______   __"
+    .byte "   /   !  / __ \/ __ \/ /   / ____/  / /"
+    .byte "  / /! ! / /_/ / /_/ / /   / __/    / /", $0d
+    .byte " / ___ !/ ____/ ____/ /___/ /___   / /", $0d
+    .byte "/_/  !_/_/   /_/   /_____/_____/  /_/", $0d
+    .byte "      __   ____  ___   ___  ________", $0d
+    .byte " \   / /  / __ \/ _ ! / _ \/ ___/ _ \ / "
+    .byte "--  / /__/ /_/ / __ !/ // /  __/ , _/ --"
+    .byte " / /____/\____/_/ !_/____/|___/ /!_!  \ "
     .byte $0d
+    .byte "   FREDERIC STARK & ANTOINE BERCOVICI", $0d
+    .byte "========================================",
+    .byte $00
+
+PROMPT:
+    .byte "========================================",
     .byte "Your Choice -> "
     .byte $00
 

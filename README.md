@@ -15,9 +15,26 @@ In the 'dist' directory is the .bin file with the assembled loader + a text file
 
 
 
-make obj/silicrom.rom
+<!-- make obj/silicrom.rom -->
 
-~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
 
 
 grep /usr/local/share/minipro/infoic.xml
+
+
+
+The loader (loader.asm) is the program that displays and manages the menu
+
+It is built by:
+
+make obj/loader.o65
+cp obj/loader.o65 dist/loader.bin
+
+The rom is created with the makerom.py script, that takes a json file and creates the corresponding rom:
+
+make fred.rom
+
+A snapshot named 'a.snp' will be placed next to the rom
+
+
+~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
