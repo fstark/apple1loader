@@ -61,7 +61,7 @@ def load_binary_file(filename):
         print(f"Error: File '{filename}' not found.")
 
 def parse_hex_number(hex_string):
-    if not (hex_string.startswith("0x") and len(hex_string) == 6 and all(c in "0123456789ABCDEF" for c in hex_string[2:])):
+    if not (hex_string.startswith("0x") and len(hex_string) == 6 and all(c in "0123456789ABCDEF" for c in hex_string[2:].upper())):
         raise ValueError(f"Invalid hex string format or content: [{hex_string}]")
 
     try:
@@ -137,7 +137,11 @@ if __name__ == "__main__":
     next_adrs = map[0]*4096 # First available address
     content_index = 0
     for content in loaded_data["content"]:
-        data = load_binary_file( content["path"] )
+        # Case where the code is already in the rom (e.g. wozmon)
+        if "path" not in content:
+            data = []
+        else:
+            data = load_binary_file( content["path"] )
         patch = []
         if "patch" in content:
             patch = load_binary_file( content["patch"] )
@@ -161,7 +165,7 @@ if __name__ == "__main__":
             next_adrs = mem_adrs+1
             rom_adrs = mem2rom[mem_adrs]
             if rom_adrs==-1:
-                print( f"**** Memory at 0x{mem_adrs:04X} is not mapped when copying {content['path']} (fail at byte {i}/{len(data)}, missing {len(data)-i} bytes)")
+                print(f"\033[41m**** Memory at 0x{mem_adrs:04X} is not mapped when copying {content['path']} (fail at byte {i}/{len(data)}, missing {len(data)-i} bytes)\033[0m")
                 failed = True
                 break
             if usage[rom_adrs]!=-2:
@@ -303,8 +307,8 @@ if __name__ == "__main__":
     except IOError:
         print(f"Error writing to '{binary_filename}'.")
 
-    adrs = 0x7000
-    end = 0xA000
+    adrs = 0x0000
+    end = 0xC000
     len = end-adrs
 
     mem = [0] * 65536
@@ -313,6 +317,7 @@ if __name__ == "__main__":
 
     array = [76, 79, 65, 68, 58, int(adrs/256), adrs%256, 68, 65, 84, 65, 58]
     array.extend( mem[adrs:adrs+len] )
+    print( f"Writing snapshot from 0x{adrs:04X} to 0x{adrs+len:04X}" )
     try:
         with open( "a.snp", 'wb') as file:
             for num in array:
