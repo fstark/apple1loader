@@ -2,6 +2,8 @@
 
 *= $5000
 
+VERSION = $02
+
 PTR = $30
 ADRS = $32
 
@@ -9,6 +11,8 @@ SIZE = $34
 FROM = $36
 TO = $38
 
+COUNTER=$30     ; Counts time for screen output
+STEP=$32
 
 KBD    = $D010	; Keyboard I/O
 KBDCR  = $D011
@@ -18,10 +22,87 @@ PRBYTE = $FFDC
 
 TBASIC=3
 
+; We want the loader to be activable via the reset vector at $FFFC
+; However, the Apple1 is not ready to run at startup
+; We first need to initialize the PIAs, set interrupts, etc
+; The other problem is that the Apple1 is not usable until the user
+; clears the screen (as there may be multiple cursor bits set)
+; If we write before the screen is cleared, we will get data written
+; all over the screen
+; We detect if the screen has been cleared by looking at how long there
+; is between two consecutive cursors 
+
+; KBDCR           = $D011         ;  PIA.A keyboard control register
+DSP             = $D012         ;  PIA.B display output register
+DSPCR           = $D013         ;  PIA.B display control register
+
+RESET:
+  CLD             ; Clear decimal arithmetic mode.
+  CLI
+  LDY #$7F        ; Mask for DSP data direction register.
+  STY DSP         ; Set it up.
+  LDA #$A7        ; KBD and DSP control register mask.
+  STA KBDCR       ; Enable interrupts, set CA1, CB1, for
+  STA DSPCR       ; positive edge sense/output mode.
+
+    ; Fill $1000 to $10ff with $ff
+  LDX #$00
+  LDA #$FF
+FILL:
+  STA $1000,X
+  INX
+  INX
+  BNE FILL
+
+  ; LDA #$00
+  ; STA STEP
+
+    ; First sync
+  JSR WAITANDPRINT
+
+WAITFORPAGE:
+  JSR CLRCOUNTER
+
+    ; Wait for 2 cursors
+  JSR WAITANDPRINT
+  JSR WAITANDPRINT
+
+    ; Store the counter in $1000 + (STEP)
+  ; LDX STEP
+  ; LDA COUNTER
+  ; STA $1000,X
+  ; LDA COUNTER+1
+  ; STA $1000+1,X
+  ; INX
+  ; INX
+  ; STX STEP
+  ; TXA
+  ; CMP #$00
+  ; BEQ TIMEOUT
+
+    ; Single cursor takes 16ms, which lets the counter go to around 01AE
+    ; So two single cursors would be 035D
+    ; In no case a single cursor would be more than 02FF
+  LDA COUNTER+1
+  CMP #$02
+  BCS TIMEOUT
+  JSR WAIT        ; Higher probability that the user
+                  ; clears the page without any writing occurring
+  BRA WAITFORPAGE
+
+TIMEOUT:
+
+    ; Took more than 0300, so we are ready to go
+
   ; CR
   LDA #$D
   JSR ECHO
 
+  LDA #VERSION
+  JSR PRBYTE
+  LDA #$D
+  JSR ECHO
+  
   LDA #<BANNER
   STA PTR
   LDA #>BANNER
@@ -40,6 +121,48 @@ LOOP0:
   BCC LOOP0
   INC PTR+1
   JMP LOOP0
+
+; Wait a good fraction of a second
+WAIT:
+       LDX #$20
+REDOX: LDY #$FF
+REDOY: LDA #$FF
+REDOA: SBC #$1
+       BNE REDOA
+       DEY
+       BNE REDOY
+       DEX
+       BNE REDOX
+       RTS
+
+; WAIT AND PRINT
+WAITANDPRINT:
+  JSR INCCOUNTER
+  BIT DSP         ; bit (B7) cleared yet?
+  BMI WAITANDPRINT; No
+
+                  ; Send a space
+  LDA #' '+$80
+  STA DSP
+  RTS
+
+; Clears COUNTER
+CLRCOUNTER:
+  LDA #$00        ; Clear counter.
+  STA COUNTER
+  STA COUNTER+1
+
+; Increments COUNTER
+; Destroys A and Flags
+INCCOUNTER:
+  LDA COUNTER
+  CLC
+  ADC #$01
+  STA COUNTER
+  LDA COUNTER+1
+  ADC #$00
+  STA COUNTER+1
+  RTS
 
 START:
   ; DISPLAY MENU

@@ -22,7 +22,7 @@ KBDCR           = $D011         ;  PIA.A keyboard control register
 DSP             = $D012         ;  PIA.B display output register
 DSPCR           = $D013         ;  PIA.B display control register
 
-* = $7F00
+* = $FF00
 
 RESET:          CLD             ; Clear decimal arithmetic mode.
                 CLI
@@ -37,7 +37,7 @@ NOTCR:          CMP #'_'+$80    ; "_"?
                 BEQ ESCAPE      ; Yes.
                 INY             ; Advance text index.
                 BPL NEXTCHAR    ; Auto ESC if > 127.
-ESCAPE:         LDA #'#'+$80    ; "\".
+ESCAPE:         LDA #'\'+$80    ; "\".
                 JSR ECHO        ; Output it.
 GETLINE:        LDA #$8D        ; CR.
                 JSR ECHO        ; Output it.
@@ -60,7 +60,7 @@ BLSKIP:         INY             ; Advance text index.
 NEXTITEM:       LDA IN,Y        ; Get character.
                 CMP #$8D        ; CR?
                 BEQ GETLINE     ; Yes, done this line.
-                CMP #'-'+$80    ; "."?
+                CMP #'.'+$80    ; "."?
                 BCC BLSKIP      ; Skip delimiter.
                 BEQ SETMODE     ; Yes. Set STOR mode.
                 CMP #':'+$80    ; ":"?
@@ -155,5 +155,6 @@ ECHO:           BIT DSP         ; bit (B7) cleared yet?
 ; Interrupt Vectors
 
                 .WORD $0F00     ; NMI
-                .WORD RESET     ; RESET
+                ; .WORD RESET     ; RESET
+                .WORD $5000     ; MENU
                 .WORD $0000     ; BRK/IRQ

@@ -93,6 +93,19 @@ def add_menu_copy( key, name, adrs, len, to ):
 def add_menu_basic( key, name, adrs, len, to ):
     add_menu( 3, key, name, adrs, len-0xb6, to )
 
+def print_mapping(mem2rom, rom2mem):
+    for i in range(0,16):
+        if mem2rom[i*4096]<0:
+            print( f"MEM 0x{i*4096:04X} -> NOT MAPPED" )
+        else:
+            print( f"MEM 0x{i*4096:04X} -> ROM 0x{mem2rom[i*4096]:04X}" )
+    print()
+
+    for i in range(0,8):
+        print( f"ROM 0x{i*4096:04X} -> MEM 0x{rom2mem[i*4096]:04X}" )
+    print()
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python makerom.py <json_file> <rom_file>")
@@ -131,6 +144,8 @@ if __name__ == "__main__":
         for j in range(4096):
             mem2rom[membase+j] = rombase+j
             rom2mem[rombase+j] = membase+j
+
+    print_mapping(mem2rom, rom2mem)
 
         # copy to rom
     failed = False
@@ -173,11 +188,19 @@ if __name__ == "__main__":
                 print( f"   File {content['path']} clashes with file {loaded_data['content'][usage[rom_adrs]]['path']}" )
                 failed = True
                 break
+            if rom_adrs>=0x3ff0 and rom_adrs<0x4010:
+                print( f"0x{rom_adrs:04X}:{data[i]:02X} ", end="")
+            if usage[rom_adrs]!=-2:
+                print( f"**** Memory clash at address 0x{mem_adrs:04X}" )
+                print( f"   File {content['path']} clashes with file {loaded_data['content'][usage[rom_adrs]]['path']}" )
+                failed = True
+                break
             rom[rom_adrs] = data[i]
             usage[rom_adrs] = content_index
         # Menu entry
         # if type=="exec":
         #     menu[content_index]
+        print()
 
         if "loader" in content and content["loader"]:
             menu_adrs = next_adrs
@@ -186,6 +209,10 @@ if __name__ == "__main__":
         content_index += 1
         if failed:
             break
+
+    for rom_adrs in range(0x3ff0,0x4010):
+        print( f"0x{rom_adrs:04X}:{rom[rom_adrs]:02X} ", end="")
+
 
     # Generate menu
     if not failed:
@@ -278,9 +305,12 @@ if __name__ == "__main__":
         else:
             new_content = usage[mem2rom[i]]
         if new_content!=current_content:
-            print( f"0x{i:04X} : ", end="" )
+            print( f"0x{i:04x}-0x{i+loaded_data['content'][new_content]['real_len']-1:04x} (0x{loaded_data['content'][new_content]['real_len']:04x}): ", end="" )
             if new_content>=0:
-                print( f"{loaded_data['content'][new_content]['path']}")
+                print( f"{loaded_data['content'][new_content]['path']}", end="")
+                if "load_adrs" in loaded_data['content'][new_content]:
+                    print( f" (load 0x{loaded_data['content'][new_content]['load_adrs']:04X})", end="")
+                print()
             else:
                 if new_content==-1:
                     print( "MENU")
@@ -296,6 +326,9 @@ if __name__ == "__main__":
 
     if failed:
         sys.exit( -4 )
+
+    for rom_adrs in range(0x3ff0,0x4010):
+        print( f"0x{rom_adrs:04X}:{rom[rom_adrs]:02X} ", end="")
 
     try:
         # Open the binary file for writing in binary mode
@@ -314,6 +347,16 @@ if __name__ == "__main__":
     mem = [0] * 65536
     for i in range(65536):
         mem[i] = rom[mem2rom[i]]
+
+    # print_mapping(mem2rom, rom2mem)
+
+    # for rom_adrs in range(0x3ff0,0x4010):
+    #     print( f"ROM 0x{rom_adrs:04X} = {rom[rom_adrs]:02X}")
+    # print()
+
+    # for ram_adrs in range(0xbff0,0xc010):
+    #     print( f"RAM 0x{ram_adrs:04X} = {rom[mem2rom[ram_adrs]]:02X}")
+    # print()
 
     array = [76, 79, 65, 68, 58, int(adrs/256), adrs%256, 68, 65, 84, 65, 58]
     array.extend( mem[adrs:adrs+len] )
