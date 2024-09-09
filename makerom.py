@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
         if "loader" in content and content["loader"]:
             menu_adrs = next_adrs
-            next_adrs += 257        # Should calc the menu size instead!
+            next_adrs += 500        # Should calc the menu size instead!
 
         content_index += 1
         if failed:
@@ -227,9 +227,9 @@ if __name__ == "__main__":
                         add_menu_basic( key, content["menu"], content["real_adrs"], content["real_len"], content["load_adrs"] )
         menu.append( 0 )
 
-        if len(menu)>256:
-            print( f"Menu too large {len(menu)} bytes. Must be <=256 ({len(menu)-256} bytes less)." )
-            sys.exit( 4 )
+        # if len(menu)>256:
+        #     print( f"Menu too large {len(menu)} bytes. Must be <=256 ({len(menu)-256} bytes less)." )
+        #     sys.exit( 4 )
 
         # Insert menu (code dup)
         if menu_adrs!=-1:

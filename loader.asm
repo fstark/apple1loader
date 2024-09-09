@@ -18,7 +18,7 @@ KBD    = $D010	; Keyboard I/O
 KBDCR  = $D011
 ECHO   = $FFEF
 PRBYTE = $FFDC
-
+WOZMON = $FF00
 
 TBASIC=3
 
@@ -45,53 +45,26 @@ RESET:
   STA KBDCR       ; Enable interrupts, set CA1, CB1, for
   STA DSPCR       ; positive edge sense/output mode.
 
-    ; Fill $1000 to $10ff with $ff
-  LDX #$00
-  LDA #$FF
-FILL:
-  STA $1000,X
-  INX
-  INX
-  BNE FILL
-
-  ; LDA #$00
-  ; STA STEP
-
     ; First sync
   JSR WAITANDPRINT
 
-WAITFORPAGE:
   JSR CLRCOUNTER
 
     ; Wait for 2 cursors
   JSR WAITANDPRINT
   JSR WAITANDPRINT
 
-    ; Store the counter in $1000 + (STEP)
-  ; LDX STEP
-  ; LDA COUNTER
-  ; STA $1000,X
-  ; LDA COUNTER+1
-  ; STA $1000+1,X
-  ; INX
-  ; INX
-  ; STX STEP
-  ; TXA
-  ; CMP #$00
-  ; BEQ TIMEOUT
-
     ; Single cursor takes 16ms, which lets the counter go to around 01AE
-    ; So two single cursors would be 035D
+    ; So two single cursors would be around 035D
     ; In no case a single cursor would be more than 02FF
   LDA COUNTER+1
   CMP #$02
-  BCS TIMEOUT
-  JSR WAIT        ; Higher probability that the user
-                  ; clears the page without any writing occurring
-  BRA WAITFORPAGE
+  BCS DISPLAYMENU
 
-TIMEOUT:
+    ; Screen not inited correctly, jumping to wozmon
+  JMP WOZMON
 
+DISPLAYMENU:
     ; Took more than 0300, so we are ready to go
 
   ; CR
@@ -122,19 +95,6 @@ LOOP0:
   INC PTR+1
   JMP LOOP0
 
-; Wait a good fraction of a second
-WAIT:
-       LDX #$20
-REDOX: LDY #$FF
-REDOY: LDA #$FF
-REDOA: SBC #$1
-       BNE REDOA
-       DEY
-       BNE REDOY
-       DEX
-       BNE REDOX
-       RTS
-
 ; WAIT AND PRINT
 WAITANDPRINT:
   JSR INCCOUNTER
@@ -164,6 +124,18 @@ INCCOUNTER:
   STA COUNTER+1
   RTS
 
+; Adds Y to PTR, Clear Y
+ADDPTRY:
+  TYA
+  CLC
+  ADC PTR
+  STA PTR
+  LDA PTR+1
+  ADC #0
+  STA PTR+1
+  LDY #0
+  RTS
+
 START:
   ; DISPLAY MENU
   LDA #<MENU
@@ -171,7 +143,9 @@ START:
   LDA #>MENU
   STA PTR+1
   LDY #$0
+
 ENTRY:
+  JSR ADDPTRY
   LDA (PTR),Y
   BEQ DONE
   INY
@@ -192,7 +166,7 @@ LOOP1:
   LDA (PTR),Y
   INY
   JSR ECHO
-  CMP #$D
+  CMP #$0D
   BNE LOOP1
   JMP ENTRY
 DONE:
@@ -226,6 +200,7 @@ LOOP3:
   LDY #$0
   
 LOOP4:
+  JSR ADDPTRY
   LDA (PTR),Y    ; Entry type
 
   CMP #$00       ; Last entry?
@@ -485,3 +460,15 @@ PROMPT:
 
 MENU:
   ; The menu needs to be just after the loader
+
+
+; MENU structure
+; TYPE    0x00 End of menu
+;         0x01 Direct jump
+;         0x02 Copy + jump
+;         0x03 Basic
+; TYPE 1  ADRS, 4*UNSUSED 
+; TYPE 2  FROM, SIZE, TO
+; TYPE 3  FROM, SIZE, TO
+; KEY     Key to activate menu item
+; STR     String to display, 0x0D terminated
