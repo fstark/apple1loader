@@ -2,7 +2,7 @@
 
 *= $5000
 
-VERSION = $02
+VERSION = $03
 
 PTR = $30
 ADRS = $32
@@ -65,22 +65,21 @@ RESET:
   JMP WOZMON
 
 DISPLAYMENU:
-    ; Took more than 0300, so we are ready to go
-
   ; CR
   LDA #$D
   JSR ECHO
 
-  LDA #VERSION
-  JSR PRBYTE
-  LDA #$D
-  JSR ECHO
+  ; LDA #VERSION
+  ; JSR PRBYTE
+  ; LDA #$D
+  ; JSR ECHO
   
   LDA #<BANNER
   STA PTR
   LDA #>BANNER
   STA PTR+1
   LDY #$00
+
 LOOP0:
   LDA (PTR),Y
   CMP #$00
@@ -136,7 +135,36 @@ ADDPTRY:
   LDY #0
   RTS
 
+DISPLAYLABEL:
+  LDA (PTR),Y
+  INY
+  JSR ECHO
+  LDA #$29 ; ')'
+  JSR ECHO
+  LDA #$20 ; ' '
+  JSR ECHO
+  ; Display name of entry
+  LDX #18
+LOOP1:
+  LDA (PTR),Y
+  DEX
+  INY
+  JSR ECHO
+  CMP #$00
+  BNE LOOP1
+
+  ; Need X spaces
+  LDA #' '
+LOOP11:
+  JSR ECHO
+  DEX
+  BNE LOOP11
+
+  RTS
+
+
 START:
+
   ; DISPLAY MENU
   LDA #<MENU
   STA PTR
@@ -155,19 +183,19 @@ ENTRY:
   INY
   INY
   INY
-  LDA (PTR),Y
-  INY
+
+  CMP #$04    ; Empty entry
+  BNE NOTEMPTY
+  LDA #$0d
   JSR ECHO
-  LDA #$29 ; ')'
-  JSR ECHO
-  LDA #$20 ; ' '
-  JSR ECHO
-LOOP1:
-  LDA (PTR),Y
-  INY
-  JSR ECHO
-  CMP #$0D
-  BNE LOOP1
+  INY ; Skip key
+  INY ; Skip label end
+  JMP ENTRY
+
+NOTEMPTY:
+
+  JSR DISPLAYLABEL
+
   JMP ENTRY
 DONE:
   LDA #<PROMPT
@@ -215,10 +243,11 @@ LOOP4:
   INY
   CMP (PTR),Y
   BEQ FOUND
+  ; Scan label
 LOOP5:
   INY
   LDA (PTR),Y
-  CMP #$0d
+  CMP #$00
   BNE LOOP5
   INY
   JMP LOOP4
@@ -393,17 +422,17 @@ DBGHEX:
   RTS
 
 BANNER:
-    .byte $00
+;    .byte $00
 ;          12345678901234567890123456789012345678901234567890
     .byte "    ___    ____  ____  __    ______   __"
-    .byte "   /   !  / __ \/ __ \/ /   / ____/  / /"
+    .byte "   /   !  / __ \\/ __ \\/ /   / ____/  / /"
     .byte "  / /! ! / /_/ / /_/ / /   / __/    / /", $0d
     .byte " / ___ !/ ____/ ____/ /___/ /___   / /", $0d
     .byte "/_/  !_/_/   /_/   /_____/_____/  /_/", $0d
     .byte "      __   ____  ___   ___  ________", $0d
-    .byte " \   / /  / __ \/ _ ! / _ \/ ___/ _ \ / "
+    .byte " \\   / /  / __ \\/ _ ! / _ \\/ ___/ _ \\ / "
     .byte "--  / /__/ /_/ / __ !/ // /  __/ , _/ --"
-    .byte " / /____/\____/_/ !_/____/|___/ /!_!  \ "
+    .byte " / /____/\\____/_/ !_/____/|___/_/!_!  \\ "
     .byte $0d
     .byte "   FREDERIC STARK & ANTOINE BERCOVICI", $0d
     .byte "========================================",
@@ -467,8 +496,9 @@ MENU:
 ;         0x01 Direct jump
 ;         0x02 Copy + jump
 ;         0x03 Basic
+;         0x04 <empty>
 ; TYPE 1  ADRS, 4*UNSUSED 
 ; TYPE 2  FROM, SIZE, TO
 ; TYPE 3  FROM, SIZE, TO
 ; KEY     Key to activate menu item
-; STR     String to display, 0x0D terminated
+; LABEL   String to display, 0x00 terminated

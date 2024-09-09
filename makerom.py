@@ -80,9 +80,12 @@ def add_menu( type, key, name, adrs, len, to ):
     menu.append( int(len/256) )
     menu.append( to%256 )
     menu.append( int(to/256) )
-    menu.append( ord(key) )
+    if key is not None:
+        menu.append( ord(key) )
+    else:
+        menu.append( 0x00 )
     menu.extend( [ord(c) for c in name] )
-    menu.append( 0x0d )
+    menu.append( 0x00 )
 
 def add_menu_exec( key, name, adrs ):
     add_menu( 1, key, name, adrs, 0, 0 )
@@ -92,6 +95,9 @@ def add_menu_copy( key, name, adrs, len, to ):
 
 def add_menu_basic( key, name, adrs, len, to ):
     add_menu( 3, key, name, adrs, len-0xb6, to )
+
+def add_menu_skip():
+    add_menu( 4, None, "", 0, 0, 0 )
 
 def print_mapping(mem2rom, rom2mem):
     for i in range(0,16):
@@ -217,6 +223,8 @@ if __name__ == "__main__":
     # Generate menu
     if not failed:
         for key in loaded_data["loader"]["keys"]:
+            if key==" ":
+                add_menu_skip()
             for content in loaded_data["content"]:
                 if "key" in content and content["key"]==key:
                     if content["type"]=="exec":
