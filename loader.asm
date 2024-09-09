@@ -81,6 +81,7 @@ DISPLAYMENU:
   LDY #$00
 
 LOOP0:
+  JSR TESTKEY
   LDA (PTR),Y
   CMP #$00
   BEQ START
@@ -93,6 +94,17 @@ LOOP0:
   BCC LOOP0
   INC PTR+1
   JMP LOOP0
+
+; Looks if a key is pressed
+; If yes directly jumps to menu execution code
+TESTKEY:
+  LDA KBDCR       ; Key ready?
+  BPL DONETESTKEY ; Nope
+  LDA #$0d
+  JSR ECHO
+  JMP MENUKEY
+DONETESTKEY:
+  RTS
 
 ; WAIT AND PRINT
 WAITANDPRINT:
@@ -212,6 +224,7 @@ LOOP2:
   JMP LOOP2
 END:
 LOOP3:
+MENUKEY:
   LDA KBDCR       ; Key ready?
   BPL LOOP3       ; Loop until ready.
   LDA KBD         ; Load character.
@@ -422,7 +435,7 @@ DBGHEX:
   RTS
 
 BANNER:
-;    .byte $00
+    ; .byte $00
 ;          12345678901234567890123456789012345678901234567890
     .byte "    ___    ____  ____  __    ______   __"
     .byte "   /   !  / __ \\/ __ \\/ /   / ____/  / /"
