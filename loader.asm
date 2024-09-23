@@ -158,6 +158,7 @@ DISPLAYLABEL:
   ; Display name of entry
   LDX #18
 LOOP1:
+  JSR TESTKEY
   LDA (PTR),Y
   DEX
   INY
@@ -166,8 +167,9 @@ LOOP1:
   BNE LOOP1
 
   ; Need X spaces
-  LDA #' '
 LOOP11:
+  JSR TESTKEY
+  LDA #' '
   JSR ECHO
   DEX
   BNE LOOP11
@@ -452,7 +454,7 @@ BANNER:
     .byte $00
 
 PROMPT:
-    .byte "========================================",
+    .byte "===================================V1.0=",
     .byte "Your Choice -> "
     .byte $00
 
