@@ -4,6 +4,10 @@
 
 ( cd src && make )
 
+# Build patches
+
+( cd patches && make )
+
 # Build the ROM
 
 python makerom.py silicrom.json silicrom.rom
