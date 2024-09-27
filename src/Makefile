@@ -17,4 +17,4 @@ LABYRINTH: labyrinth.s
 
 A2MON: appleiimonitor.s
 	ca65 -g -l appleiimonitor.lst appleiimonitor.s
-	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -m appleiimonitor.map -o appleiimonitor.bin appleiimonitor.o
+	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -m appleiimonitor.map -o A2MON appleiimonitor.o

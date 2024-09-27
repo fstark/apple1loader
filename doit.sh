@@ -8,8 +8,17 @@
 
 ( cd patches && make )
 
+# Download mandelbrot65.o65
+
+( cd software && rm -f mandelbrot65.o65 && wget https://github.com/fstark/mandelbrot65/raw/refs/heads/main/mandelbrot65.o65 )
+
 # Build the ROM
 
 python makerom.py silicrom.json silicrom.rom
 
 # ~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
+
+# Flash rom
+
+minipro -p X28C256 -w silicrom.rom -y
+

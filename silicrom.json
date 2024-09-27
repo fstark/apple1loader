@@ -71,7 +71,7 @@
 		{
 			"comment" : "Apple ][ monitor",
 			"type" : "exec",
-			"path" : "software/A2MON.fred",
+			"path" : "src/A2MON",
 			"menu" : "APPLE2 MONITOR",
 			"key"  : "L",
 			"adrs" : "0x73FA"
