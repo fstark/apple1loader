@@ -1,86 +1,18 @@
 {
-	"map" : "5789ABCE",
+	"xmap" : "5789ABCE",
+	"map" :  "5789ABCE",
 	"loader" :
 	{
-		"keys" : "1W2B3R4M5N6F7C8U9 0"
+		"keys" : "1W2B3R4M5N6D7L8A9C0 "
 	},
 	"content" :
 	[
 		{
-			"type" : "copy",
-			"path" : "software/APPLE30TH",
-			"menu" : "APPLE 30TH",
-			"key"  : "1"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/PASART.FIXED",
-			"menu" : "PASART",
-			"key"  : "7",
-			"load" : "0x0300"
-		},
-		{
+			"comment" : "The loader is at 0x5000",
+			"adrs" : "0x5000",
 			"type" : "exec",
 			"path" : "dist/loader.bin",
-			"adrs" : "0x7000",
 			"loader" : true
-		},
-		{
-			"type" : "copy",
-			"path" : "software/CELLULAR",
-			"menu" : "CELLULAR",
-			"key"  : "8",
-			"load" : "0x0300"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/MASTERMIND",
-			"menu" : "MASTERMIND",
-			"key"  : "9",
-			"load" : "0x0300"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/MEMORYTEST",
-			"patch": "patches/4KMEMTEST",
-			"menu" : "4K MEMTEST",
-			"key"  : "N"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/LUNARLANDER",
-			"adrs" : "0x8000",
-			"menu" : "LUNAR LANDER",
-			"key"  : "2",
-			"load" : "0x0300"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/CODEBREAKER.REP",
-			"menu" : "CODE BRK",
-			"key"  : "3"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/LITTLETOWER",
-			"menu" : "LITTLE TOWER",
-			"key"  : "4",
-			"load" : "0x0300"
-		},
-		{
-			"type" : "basic",
-			"path" : "software/WUMPUS.FIXED",
-			"menu" : "WUMPIS",
-			"key"  : "U",
-			"load" : "0x0300",
-			"run"  : "0xefec"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/MICROCHESS2",
-			"menu" : "MICROCHESS",
-			"key"  : "6",
-			"load" : "0x1000"
 		},
 		{
 			"type" : "copy",
@@ -93,39 +25,143 @@
 		{
 			"type" : "copy",
 			"path" : "software/MEMORYTEST",
+			"patch": "patches/4KMEMTEST",
+			"menu" : "4K MEMORY TEST",
+			"load" : "0x0280",
+			"key"  : "N"
+		},
+		{
+			"type" : "copy",
+			"path" : "software/MEMORYTEST",
 			"patch": "patches/8KMEMTEST",
-			"menu" : "8K MEMTEST",
+			"menu" : "8K MEMORY TEST",
+			"load" : "0x0280",
 			"key"  : "M"
+		},
+		{
+			"type" : "copy",
+			"path" : "software/DISPLAY.bin",
+			"menu" : "DISPLAY TEST",
+			"key"  : "D",
+			"load" : "0x0000"
+		},
+		{
+			"type" : "copy",
+			"path" : "software/PASART.FIXED",
+			"menu" : "PASART",
+			"key"  : "7",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "CELLULAR: Cellular Automata is at 0x0300",
+			"type" : "copy",
+			"path" : "software/CELLULAR",
+			"menu" : "CELLULAR",
+			"key"  : "8",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "C64 Labyrinth",
+			"type" : "copy",
+			"path" : "software/LABYRINTH",
+			"menu" : "C64 LABYRINTH",
+			"key"  : "C",
+			"load" : "0x0280"
+		},
+		{
+			"comment" : "Apple ][ monitor",
+			"type" : "exec",
+			"path" : "software/A2MON.fred",
+			"menu" : "APPLE2 MONITOR",
+			"key"  : "L",
+			"adrs" : "0x73FA"
+		},
+		{
+			"comment" : "Mini-assembler entry point",
+			"type" : "exec",
+			"path" : "/dev/null",
+			"menu" : "MINI ASSEMBLER",
+			"key"  : "A",
+			"adrs" : "0x73FD"
+		},
+		{
+			"comment" : "Wozmon is at 0xff00",
+			"type" : "exec",
+			"adrs" : "0x7f00",
+			"path" : "software/WOZMON2",
+			"menu" : "WOZMON",
+			"key"  : "W"
+		},
+		{
+			"comment" : "Apple 30th",
+			"type" : "copy",
+			"adrs" : "0x8000",
+			"path" : "software/APPLE30TH",
+			"menu" : "APPLE 30TH",
+			"load" : "0x0280",
+			"key"  : "1"
+		},
+		{
+			"type" : "copy",
+			"path" : "software/LITTLETOWER",
+			"menu" : "LITTLE TOWER",
+			"key"  : "4",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "Typing Tutor is at 0x0280",
+			"type" : "copy",
+			"path" : "software/TYPINGTUTOR.FIXED",
+			"menu" : "TYPING TUTOR",
+			"key"  : "5",
+			"load" : "0x0280"
+		},
+		
+		{
+			"type" : "copy",
+			"path" : "software/MICROCHESS2",
+			"menu" : "MICROCHESS",
+			"key"  : "6",
+			"load" : "0x1000"
+		},
+		{
+			"comment" : "Lunar Lander",
+			"type" : "copy",
+			"path" : "software/LUNARLANDER",
+			"menu" : "LUNAR LANDER",
+			"key"  : "3",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "Mastermind is at 0x0300",
+			"type" : "copy",
+			"path" : "software/MASTERMIND",
+			"menu" : "MASTER MIND",
+			"key"  : "9",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "ASM Mandelbrot",
+			"type" : "copy",
+			"path" : "software/mandelbrot65.o65",
+			"menu" : "MANDELBROT",
+			"key"  : "2",
+			"load" : "0x0280"
 		},
 		{
 			"type" : "exec",
 			"path" : "software/BASIC",
 			"adrs" : "0xE000",
-			"menu" : "BASIC",
+			"menu" : "INTEGER BASIC",
 			"key"  : "B"
 		},
-		{	"type" : "exec",
-			"path" : "src/CRC8",
-			"adrs" : "0x7E00",
-			"menu" : "CRC",
-			"key"  : "C"	
-		},
 		{
+			"comment" : "Re-enter BASIC",
 			"type" : "exec",
-			"path" : "src/WOZMON2",
-			"adrs" : "0x7F00",
-			"menu" : "WOZMON2",
-			"key"  : "F"
-		}
-	],
-	"comment" :
-	[
-		{
-			"type" : "exec",
-			"path" : "software/WOZMON",
-			"adrs" : "0x7F00",
-			"menu" : "WOZMON",
-			"key"  : "W"
+			"adrs" : "0xe2b3",
+			"path" : "/dev/null",
+			"menu" : "BASIC RE-ENTRY",
+			"key"  : "R"
 		}
 	]
 }
