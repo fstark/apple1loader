@@ -4,7 +4,7 @@ This is the loader for aberco/SiliconInsider 32K ROM for the Apple1
 
 It contains an assortment of software for the Apple1.
 
-The rom file is [silicom.rom](silicom.rom).
+The rom file is [silicrom.rom](silicrom.rom).
 
 If you have the right tools, it can be built using the ``doit.sh`` script (to be turned into a Makefile soon)
 
