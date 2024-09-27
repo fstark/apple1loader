@@ -1,5 +1,8 @@
 all: LOADER WOZMON2 LABYRINTH A2MON
 
+clean:
+	rm -f LOADER WOZMON2 LABYRINTH A2MON appleiimonitor.lst appleiimonitor.o appleiimonitor.map
+
 LOADER: loader.s
 	xa -o LOADER loader.s
 

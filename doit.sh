@@ -16,9 +16,16 @@
 
 python makerom.py silicrom.json silicrom.rom
 
-# ~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
 
 # Flash rom
 
-minipro -p X28C256 -w silicrom.rom -y
+# minipro -p X28C256 -w silicrom.rom -y
 
+( cd src && make clean )
+
+( cd patches && make clean )
+
+rm -f software/mandelbrot65.o65
+
+# ~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
+rm a.snp
