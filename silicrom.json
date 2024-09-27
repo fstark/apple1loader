@@ -3,7 +3,7 @@
 	"map" :  "5789ABCE",
 	"loader" :
 	{
-		"keys" : "1W2B3R4M5N6D7L8A9C0 "
+		"keys" : "1W2B3R4M5N6D7T8L9A0 "
 	},
 	"content" :
 	[
@@ -65,7 +65,7 @@
 			"type" : "copy",
 			"path" : "src/LABYRINTH",
 			"menu" : "C64 LABYRINTH",
-			"key"  : "C",
+			"key"  : "5",
 			"load" : "0x0280"
 		},
 		{
@@ -113,7 +113,7 @@
 			"type" : "copy",
 			"path" : "software/TYPINGTUTOR.FIXED",
 			"menu" : "TYPING TUTOR",
-			"key"  : "5",
+			"key"  : "T",
 			"load" : "0x0280"
 		},
 		
