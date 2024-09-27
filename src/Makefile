@@ -9,3 +9,5 @@ CRC8: crc8.s
 REGS: regs.s
 	xa -o REGS regs.s
 
+LABYRINTH: labyrinth.s
+    xa -o LABYRINTH labyrinth.s
