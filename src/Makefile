@@ -1,4 +1,4 @@
-all: LOADER WOZMON2 LABYRINTH
+all: LOADER WOZMON2 LABYRINTH A2MON
 
 LOADER: loader.s
 	xa -o LOADER loader.s
@@ -14,3 +14,7 @@ REGS: regs.s
 
 LABYRINTH: labyrinth.s
 	xa -o LABYRINTH labyrinth.s
+
+A2MON: appleiimonitor.s
+	ca65 -g -l appleiimonitor.lst appleiimonitor.s
+	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -m appleiimonitor.map -o appleiimonitor.bin appleiimonitor.o
