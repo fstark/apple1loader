@@ -11,7 +11,7 @@
 			"comment" : "The loader is at 0x5000",
 			"adrs" : "0x5000",
 			"type" : "exec",
-			"path" : "dist/loader.bin",
+			"path" : "src/LOADER",
 			"loader" : true
 		},
 		{
@@ -63,7 +63,7 @@
 		{
 			"comment" : "C64 Labyrinth",
 			"type" : "copy",
-			"path" : "software/LABYRINTH",
+			"path" : "src/LABYRINTH",
 			"menu" : "C64 LABYRINTH",
 			"key"  : "C",
 			"load" : "0x0280"
@@ -88,7 +88,7 @@
 			"comment" : "Wozmon is at 0xff00",
 			"type" : "exec",
 			"adrs" : "0x7f00",
-			"path" : "software/WOZMON2",
+			"path" : "src/WOZMON2",
 			"menu" : "WOZMON",
 			"key"  : "W"
 		},

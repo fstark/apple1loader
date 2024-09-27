@@ -1,4 +1,7 @@
-all: WOZMON2 CRC8
+all: LOADER WOZMON2 LABYRINTH
+
+LOADER: loader.s
+	xa -o LOADER loader.s
 
 WOZMON2: wozmon.s
 	xa -o WOZMON2 wozmon.s
@@ -10,4 +13,4 @@ REGS: regs.s
 	xa -o REGS regs.s
 
 LABYRINTH: labyrinth.s
-    xa -o LABYRINTH labyrinth.s
+	xa -o LABYRINTH labyrinth.s

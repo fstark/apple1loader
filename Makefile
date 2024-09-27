@@ -19,22 +19,10 @@ ROMS = src/CRC8
 run: obj/silicrom1.snp
 	mame -debug apple1 -ui_active -resolution 640x480 -snapshot obj/silicrom1.snp
 
-# Object file
-obj/silicrom1.o65: silicrom1.asm software/BASIC.inc software/WOZMON.inc software/MEMORYTEST.inc software/APPLE30TH.inc software/LUNARLANDER.inc software/CODEBREAKER.REP.inc software/LITTLETOWER.inc software/TYPINGTUTOR.inc software/MICROCHESS2.inc software/PASART.inc software/CELLULAR.inc software/MASTERMIND.inc software/NIM.04AF.inc 
-	mkdir -p obj
-	xa -o obj/silicrom1.o65 silicrom1.asm
-
 # Builds the mame snapshot
 obj/silicrom1.snp: obj/silicrom1.o65
 	( echo -e foo )
 	( /bin/echo -en "LOAD:\x50\x00DATA:" ; cat obj/silicrom1.o65 ) > obj/silicrom1.snp
-
-
-
-# Builds the binary file
-obj/loader.o65: loader.asm
-	mkdir -p obj
-	xa -o obj/loader.o65 loader.asm
 
 # Runs in mame
 # run: obj/loader.snp

@@ -37,7 +37,7 @@ NOTCR:          CMP #'_'+$80    ; "_"?
                 BEQ ESCAPE      ; Yes.
                 INY             ; Advance text index.
                 BPL NEXTCHAR    ; Auto ESC if > 127.
-ESCAPE:         LDA #'\'+$80    ; "\".
+ESCAPE:         LDA #'\\'+$80    ; "\".
                 JSR ECHO        ; Output it.
 GETLINE:        LDA #$8D        ; CR.
                 JSR ECHO        ; Output it.
