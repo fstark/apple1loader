@@ -4,7 +4,7 @@ all: silicrom.rom
 # Create the EEPROM and copies it to an X28C256
 eeprom: silicrom.rom
 	@echo "Copy of binary into a 28256 via MiniPro"
-	minipro -p X28C256@DIP28 -w silicrom.rom
+	minipro -p X28C256 -w silicrom.rom
 
 SOFTS_SRC = src/LABYRINTH src/LOADER src/WOZMON2 src/A2MON
 SOFTS_BIN = software/APPLE30TH software/BASIC software/CELLULAR software/DISPLAY.bin software/LITTLETOWER software/LUNARLANDER software/MASTERMIND software/MEMORYTEST software/MICROCHESS2 software/NIM.04AF software/PASART.FIXED software/TYPINGTUTOR.FIXED software/WOZMON software/mandelbrot65.o65
