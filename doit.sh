@@ -28,4 +28,4 @@ python makerom.py silicrom.json silicrom.rom
 rm -f software/mandelbrot65.o65
 
 # ~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp 
-rm a.snp
+# rm a.snp

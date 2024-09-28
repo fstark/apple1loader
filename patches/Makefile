@@ -1,13 +1,10 @@
-all: 4kMEMTEST 8kMEMTEST NIM
+OBJECTS=4KMEMTEST 8KMEMTEST NIM
+
+all: $(OBJECTS)
 
 clean:
-	rm -f 4KMEMTEST 8KMEMTEST NIM
+	rm -f $(OBJECTS)
 
-4kMEMTEST: 4KMEMTEST.asm
-	xa -o 4KMEMTEST 4KMEMTEST.asm
-
-8kMEMTEST: 8KMEMTEST.asm
-	xa -o 8KMEMTEST 8KMEMTEST.asm
-
-NIM: NIM.asm
-	xa -o NIM NIM.asm
+# All .asm files are built by running xa on them
+%: %.asm
+	xa -o $@ $<

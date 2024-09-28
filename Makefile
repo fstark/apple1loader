@@ -1,65 +1,38 @@
 # Makes the silicon rom
+all: silicrom.rom
 
-
+# Create the EEPROM and copies it to an X28C256
 eeprom: silicrom.rom
-	@echo "Copy of binary into a 27256/28256 via MiniPro"
-	minipro -p D27256@DIP28 -w silicrom.rom
+	@echo "Copy of binary into a 28256 via MiniPro"
+	minipro -p X28C256@DIP28 -w silicrom.rom
 
-# eeprom: fred.rom
-# 	@echo "Copy of binary into a 27256/28256 via MiniPro"
-# 	# minipro -p X28C256 -w obj/silicrom.rom
-# 	minipro -p D27256@DIP28 -w fred.rom
+SOFTS_SRC = src/LABYRINTH src/LOADER src/WOZMON2 src/A2MON
+SOFTS_BIN = software/APPLE30TH software/BASIC software/CELLULAR software/DISPLAY.bin software/LITTLETOWER software/LUNARLANDER software/MASTERMIND software/MEMORYTEST software/MICROCHESS2 software/NIM.04AF software/PASART.FIXED software/TYPINGTUTOR.FIXED software/WOZMON software/mandelbrot65.o65
+PATCHES = patches/4KMEMTEST patches/8KMEMTEST patches/NIM
 
-ROMS = src/CRC8
+# Declare the targets as phony
+.PHONY: $(SOFTS_SRC) $(SOFTS_BIN) $(PATCHES)
 
-# obj/silicrom.rom: dist/loader.bin silicrom.json makerom.py $(ROMS)
-# 	python 	makerom.py silicrom.json obj/silicrom.rom
+# All files in the src directory are built by going into the src directory and running make with their filename
+$(SOFTS_SRC): 
+	@$(MAKE) -C src $(notdir $@)
 
-# Runs in mame
-run: obj/silicrom1.snp
-	mame -debug apple1 -ui_active -resolution 640x480 -snapshot obj/silicrom1.snp
+# Same for patchs
+$(PATCHES):
+	@$(MAKE) -C patches $(notdir $@)
 
-# Builds the mame snapshot
-obj/silicrom1.snp: obj/silicrom1.o65
-	( echo -e foo )
-	( /bin/echo -en "LOAD:\x50\x00DATA:" ; cat obj/silicrom1.o65 ) > obj/silicrom1.snp
+# Mandelbrot is downloaded from the github repo if it does not exist
+software/mandelbrot65.o65:
+	wget https://github.com/fstark/mandelbrot65/raw/refs/heads/main/mandelbrot65.o65 -O software/mandelbrot65.o65
 
-# Runs in mame
-# run: obj/loader.snp
-# 	mame -debug apple1 -ui_active -resolution 640x480 -snapshot obj/loader.snp
+# All files in the software directory are already built
 
-# Builds the mame snapshot
-obj/loader.snp: obj/loader.o65
-	( echo -e foo )
-	( /bin/echo -en "LOAD:\x02\x80DATA:" ; cat obj/loader.o65 ) > obj/loader.snp
+silicrom.rom: silicrom.json $(SOFTS_BIN) $(SOFTS_SRC) $(PATCHES) makerom.py
+	@echo "Building the silicon rom"
+	@python makerom.py $< $@
 
-# Remove objects
 clean:
-	rm -rf obj
-
-# distribution
-dist: dist/loader.bin
-
-dist/loader.bin: obj/loader.o65 bin2woz.py
-	mkdir -p dist
-	cp obj/loader.o65 dist/loader.bin
-	python bin2woz.py obj/loader.o65 280 > dist/loader.txt
-
-%.rom: %.json obj/loader.o65
-	python makerom.py $< $@
-
-# Define a pattern rule to build .inc files from their respective sources
-%.inc: %
-	python bin2inc.py $< > $@
-
-# List of source files (without extensions) for which .inc files need to be generated
-# SOURCES := file file2 foo
-
-# # List of target .inc files
-# INC_FILES := $(addsuffix .inc, $(SOURCES))
-
-# # Default target to build all .inc files
-# all: $(INC_FILES)
-
-.PHONY: all
-
+	rm -f a.snp
+	@$(MAKE) -C src clean
+	@$(MAKE) -C patches clean
+	rm -f software/mandelbrot65.o65
