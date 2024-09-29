@@ -1,4 +1,4 @@
-# Loader for the Apple1
+# Loader for the Aberco/SiliconInsider Apple1 32K ROM Card
 
 This is the loader for aberco/SiliconInsider 32K ROM for the Apple1
 
@@ -8,8 +8,6 @@ The rom file is [silicrom.rom](silicrom.rom).
 
 You can build the ROM using the top-level Makefile, if you have the right tools installed (xa assembler, ca65 tool suite, python3).
 
-A snapshot named 'a.snp' will be placed next to the rom. It can be loaded in mame using: ``~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp``
-
 # Content of the ROM
 
 When booting you Apple1 (if you mapped the $F000-$FFFF region), or after executing ``5000R``, you will be greated by this menu (after having cleared the screen and pressed reset):
@@ -18,7 +16,7 @@ When booting you Apple1 (if you mapped the $F000-$FFFF region), or after executi
 
 You don't have to wait for the menu to display: you can type the key corresponding to the program you want to execute during the display.
 
-You can always return to the menu, but pressing the Reset key (and entering ``5000R`` if needed).
+You can always return to the menu, by pressing the Reset key (and entering ``5000R`` if needed).
 
 ## Mandelbrot
 
