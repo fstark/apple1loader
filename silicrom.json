@@ -109,14 +109,13 @@
 			"load" : "0x0300"
 		},
 		{
-			"comment" : "Typing Tutor is at 0x0280",
-			"type" : "copy",
-			"path" : "software/TYPINGTUTOR.FIXED",
-			"menu" : "TYPING TUTOR",
+			"comment" : "Tic Tac Toe (BASIC)",
+			"type" : "basic",
+			"path" : "src/TICTACTOE",
+			"menu" : "TIC-TAC-TOE",
 			"key"  : "T",
-			"load" : "0x0280"
+			"load" : "0x0800"
 		},
-		
 		{
 			"type" : "copy",
 			"path" : "software/MICROCHESS2",

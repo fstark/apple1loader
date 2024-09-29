@@ -1,4 +1,4 @@
-OBJECTS=LOADER WOZMON2 LABYRINTH A2MON
+OBJECTS=LOADER WOZMON2 LABYRINTH A2MON TICTACTOE
 
 all: $(OBJECTS)
 
@@ -14,3 +14,6 @@ A2MON: A2MON.asm
 	ca65 A2MON.asm
 	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -o A2MON A2MON.o
 	@rm A2MON.o
+
+TICTACTOE: TICTACTOE.core
+	python3 ../utils/core2bin.py TICTACTOE.core TICTACTOE
