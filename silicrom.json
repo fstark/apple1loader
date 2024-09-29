@@ -61,10 +61,10 @@
 			"load" : "0x0300"
 		},
 		{
-			"comment" : "C64 Labyrinth",
+			"comment" : "C64 Maze",
 			"type" : "copy",
 			"path" : "src/LABYRINTH",
-			"menu" : "C64 LABYRINTH",
+			"menu" : "C64 MAZE",
 			"key"  : "5",
 			"load" : "0x0280"
 		},
@@ -74,7 +74,7 @@
 			"path" : "src/A2MON",
 			"menu" : "APPLE2 MONITOR",
 			"key"  : "D",
-			"adrs" : "0x73FA"
+			"adrs" : "0x73F0"
 		},
 		{
 			"comment" : "Mini-assembler entry point",
@@ -82,7 +82,7 @@
 			"path" : "/dev/null",
 			"menu" : "MINI ASSEMBLER",
 			"key"  : "E",
-			"adrs" : "0x73FD"
+			"adrs" : "0x73F3"
 		},
 		{
 			"comment" : "Wozmon is at 0xff00",
@@ -103,7 +103,7 @@
 		},
 		{
 			"type" : "copy",
-			"path" : "software/LITTLETOWER",
+			"path" : "src/LITTLETOWER",
 			"menu" : "LITTLE TOWER",
 			"key"  : "4",
 			"load" : "0x0300"
@@ -135,7 +135,7 @@
 			"comment" : "Mastermind is at 0x0300",
 			"type" : "copy",
 			"path" : "software/MASTERMIND",
-			"menu" : "MASTER MIND",
+			"menu" : "MASTERMIND",
 			"key"  : "9",
 			"load" : "0x0300"
 		},
