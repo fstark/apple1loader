@@ -3,7 +3,7 @@
 	"map" :  "5789ABCE",
 	"loader" :
 	{
-		"keys" : "1W2B3R4M5N6D7T8L9A0 "
+		"keys" : "M1 2W3I4R5A6B7C8D9E0"
 	},
 	"content" :
 	[
@@ -28,7 +28,7 @@
 			"patch": "patches/4KMEMTEST",
 			"menu" : "4K MEMORY TEST",
 			"load" : "0x0280",
-			"key"  : "N"
+			"key"  : "B"
 		},
 		{
 			"type" : "copy",
@@ -36,13 +36,13 @@
 			"patch": "patches/8KMEMTEST",
 			"menu" : "8K MEMORY TEST",
 			"load" : "0x0280",
-			"key"  : "M"
+			"key"  : "A"
 		},
 		{
 			"type" : "copy",
 			"path" : "software/DISPLAY.bin",
 			"menu" : "DISPLAY TEST",
-			"key"  : "D",
+			"key"  : "C",
 			"load" : "0x0000"
 		},
 		{
@@ -73,7 +73,7 @@
 			"type" : "exec",
 			"path" : "src/A2MON",
 			"menu" : "APPLE2 MONITOR",
-			"key"  : "L",
+			"key"  : "D",
 			"adrs" : "0x73FA"
 		},
 		{
@@ -81,7 +81,7 @@
 			"type" : "exec",
 			"path" : "/dev/null",
 			"menu" : "MINI ASSEMBLER",
-			"key"  : "A",
+			"key"  : "E",
 			"adrs" : "0x73FD"
 		},
 		{
@@ -113,7 +113,7 @@
 			"type" : "basic",
 			"path" : "src/TICTACTOE",
 			"menu" : "TIC-TAC-TOE",
-			"key"  : "T",
+			"key"  : "2",
 			"load" : "0x0800"
 		},
 		{
@@ -144,7 +144,7 @@
 			"type" : "copy",
 			"path" : "software/mandelbrot65.o65",
 			"menu" : "MANDELBROT",
-			"key"  : "2",
+			"key"  : "M",
 			"load" : "0x0280"
 		},
 		{
@@ -152,7 +152,7 @@
 			"path" : "software/BASIC",
 			"adrs" : "0xE000",
 			"menu" : "INTEGER BASIC",
-			"key"  : "B"
+			"key"  : "I"
 		},
 		{
 			"comment" : "Re-enter BASIC",

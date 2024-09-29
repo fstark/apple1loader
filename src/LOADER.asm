@@ -200,8 +200,12 @@ ENTRY:
 
   CMP #$04    ; Empty entry
   BNE NOTEMPTY
-  LDA #$0d
+  LDA #' '
+  LDX #20
+NOTEMPTYLOOP:
   JSR ECHO
+  DEX
+  BNE NOTEMPTYLOOP
   INY ; Skip key
   INY ; Skip label end
   JMP ENTRY
@@ -454,7 +458,7 @@ BANNER:
     .byte $00
 
 PROMPT:
-    .byte "===================================V1.1=",
+    .byte "===================================V1.2=",
     .byte "Your Choice -> "
     .byte $00
 
