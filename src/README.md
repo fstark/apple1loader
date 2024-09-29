@@ -11,6 +11,7 @@ This is the menu/loader assembly code
 ## WOZMON2
 
 This is wozmon, changed to have the reset vector pointing to $5000, the address of the menu/loader.
+I also added the '#' command to jump to wozmon
 
 ## A2MON
 
@@ -23,3 +24,7 @@ A simple labyrinth assembly program, writen by Aberco/SiliconInsider
 ## TICTACTOE
 
 The BASIC tic tac toe program. Unfortunately, the source code floating around is wrong. This is a corrected working version. It has been loaded with a patched version of napple1 (https://github.com/fstark/napple1) and saved as a memory dump. From that dump a suitable TICTACTOE file is extracted.
+
+## LITTLETOWER
+
+The version of Little Tower floating around is broken. Here is a version I fixed.

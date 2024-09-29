@@ -1,4 +1,4 @@
-OBJECTS=LOADER WOZMON2 LABYRINTH A2MON TICTACTOE
+OBJECTS=LOADER WOZMON2 LABYRINTH A2MON TICTACTOE LITTLETOWER
 
 all: $(OBJECTS)
 
@@ -10,10 +10,16 @@ clean:
 	xa -o $@ $<
 
 A2MON: A2MON.asm
-	# ca65 -g -l appleiimonitor.lst appleiimonitor.s
+	# ca65 -g -l A2MON.lst A2MON.s
 	ca65 A2MON.asm
 	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -o A2MON A2MON.o
 	@rm A2MON.o
+
+LITTLETOWER: LITTLETOWER.asm
+	# ca65 -l LITTLETOWER.lst  LITTLETOWER.asm
+	ca65 LITTLETOWER.asm
+	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -o LITTLETOWER LITTLETOWER.o
+	@rm LITTLETOWER.o
 
 TICTACTOE: TICTACTOE.core
 	python3 ../utils/core2bin.py TICTACTOE.core TICTACTOE
