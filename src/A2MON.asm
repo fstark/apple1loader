@@ -72,7 +72,7 @@ IN =     $200
 ;  .org $6500
 ;  .org $7500
 ;  .org $B500
-  .org $73FA
+  .org $73F0
 .else
   .org $F500
 .endif
@@ -175,6 +175,11 @@ NXTLINE: LDA #$A1 ; '!'
   INY
   CMP #$A4 ; ASCII '$' IN COL 1?
   BEQ FAKEMON ; YES, SIMULATE MONITOR
+   ; FReD additions
+  CMP #$A3 ; ASCII '#' IN COL 1?
+  BNE FRED_SKIP 
+  JMP $FF00 ; GO TO WOZMON
+FRED_SKIP:
   DEY ; NO, BACKUP A CHAR
   JSR GETNUM ; GET A NUMBER
   CMP #$93 ; ':' TERMINATOR?
@@ -301,6 +306,7 @@ L7: CMP   #$9B ; Use Esc for line kill
 L4: CMP   #$88 ; Use Control h for Backspace
   BNE   L5
   LDA   #$DF ; Underscore out
+
 .ifdef WOZMON
   CMP #$91   ; Control-Q typed?
   BNE L5     ; If so, jump to WozMon
