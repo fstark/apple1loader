@@ -54,7 +54,7 @@ The fundamental commands to remember are:
 
 ## Integer BASIC
 
-**``I``** is for *Integer BASIC, which is the original basic of the Apple1.
+**``I``** is for Integer BASIC, which is the original basic of the Apple1.
 
 The BASIC is present in the ROM and should be mapped to $E000.
 
