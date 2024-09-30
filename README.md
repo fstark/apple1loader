@@ -18,6 +18,8 @@ You don't have to wait for the menu to display: you can type the key correspondi
 
 You can always return to the menu, by pressing the Reset key (and entering ``5000R`` if needed).
 
+Author: Fred Stark (2024)
+
 ## Mandelbrot
 
 This is a fast mandelbrot explorer, written specifically for this ROM.
@@ -131,6 +133,8 @@ Pressing ``?`` will launch a small utility that displays the memory mapping of y
 ![Memory mapping](images/memory-map.jpg)
 
 This will allow you to check that the jumpers on the RAM/ROM card are properly configured (memory at 5000-5FFF, 7000 to CFFF and E000-EFFF must be mapped to the card). Mapping F000-FFFF is optional but helps by having ``Reset`` directly laucnhing the menu (You will need to deactivate the on-board Wozmon). Directly booting to the card also activate some tests of the low memory of the Apple1: it will print ``ZP?`` or ``SP?`` in a loop if the zero page or the stack page are not writable. Can be useful to debug your Apple1.
+
+Author: Fred Stark (2024)
 
 ## The Apple 30th Demo
 
