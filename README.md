@@ -200,11 +200,11 @@ What an extraordinary feat from Peter R. Jennings to get a full chess program in
 
 *Author: Peter R. Jennings (1976)*
 
-## PASART
+## PasArt
 
-Pasart is **``7``**. Not sure why it is called this way, but you can get some interesting patterns by tring various values.
+PasArt is **``7``**. Not sure why it is called this way, but you can get some interesting patterns by tring various values.
 
-![A Pasart image](images/pasart.png)
+![A PasArt image](images/pasart.png)
 
 Try other numbers, like ``18,35,9,1``, ``18,35,61,2`` or ``19,39,55,2``...
 
