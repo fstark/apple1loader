@@ -3,7 +3,7 @@
 	"map" :  "5789ABCE",
 	"loader" :
 	{
-		"keys" : "M1 2W3I4R5A6B7C8D9E0"
+		"keys" : "M1W2I3R4A5B6C7D8E9?0"
 	},
 	"content" :
 	[
@@ -13,6 +13,14 @@
 			"type" : "exec",
 			"path" : "src/LOADER",
 			"loader" : true
+		},
+		{
+			"comment" : "The hw checker entry points is at 0x5003",
+			"adrs" : "0x5003",
+			"menu" : "MEMORY MAP",
+			"type" : "exec",
+			"path" : "/dev/null",
+			"key"  : "?"
 		},
 		{
 			"type" : "copy",
@@ -58,7 +66,8 @@
 			"path" : "software/CELLULAR",
 			"menu" : "CELLULAR",
 			"key"  : "8",
-			"load" : "0x0300"
+			"load" : "0x0300",
+			"adrs" : "0x7000"
 		},
 		{
 			"comment" : "C64 Maze",

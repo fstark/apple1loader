@@ -36,7 +36,15 @@ TBASIC=3
 DSP             = $D012         ;  PIA.B display output register
 DSPCR           = $D013         ;  PIA.B display control register
 
+; Entry points
+  JMP RESET
+  JMP HWCHECK
+
 RESET:
+.(
+
+    ; Set up the Apple1 if we replace the WOZMON
+
   CLD             ; Clear decimal arithmetic mode.
   CLI
   LDY #$7F        ; Mask for DSP data direction register.
@@ -44,6 +52,71 @@ RESET:
   LDA #$A7        ; KBD and DSP control register mask.
   STA KBDCR       ; Enable interrupts, set CA1, CB1, for
   STA DSPCR       ; positive edge sense/output mode.
+
+    ; Check if ZP and SP memory are available
+
+    ; Check ZP
+  LDA $00     ; Whatever is in $00
+  TAX
+  EOR #$FF
+  STA $00     ; Is EOR and stored back
+  TXA
+  CMP $00     ; Then compared
+  BEQ NOZP    ; If equal, it cannot be written
+  EOR #$FF
+  CMP $00     ; Then compare with correct EOR
+  BEQ ZPOK
+
+  ; We could not write to address 0
+  ; Or we did not read back the EOR value
+  ; Print "ZP?" in a loop
+NOZP:
+.(
+    LDA #'Z'+$80
+L1: BIT DSP
+    BMI L1
+    STA DSP
+    LDA #'P'+$80
+L2: BIT DSP
+    BMI L2
+    STA DSP
+    LDA #'?'+$80
+L3: BIT DSP
+    BMI L3
+    STA DSP
+    JMP NOZP
+.)
+  ; Check if the stack is available
+ZPOK:
+    JSR NEXT
+NEXT:
+    PLA
+    CMP #<(NEXT-1)
+    BNE NOSP
+    PLA
+    CMP #>NEXT
+    BEQ CONTINUE
+
+    ; We don't have a stack
+    ; Print "ZP?" in a loop
+NOSP:
+.(
+    LDA #'S'+$80
+L1: BIT DSP
+    BMI L1
+    STA DSP
+    LDA #'P'+$80
+L2: BIT DSP
+    BMI L2
+    STA DSP
+    LDA #'?'+$80
+L3: BIT DSP
+    BMI L3
+    STA DSP
+    JMP NOSP
+.)
+
+CONTINUE:
 
     ; First sync
   JSR WAITANDPRINT
@@ -59,12 +132,52 @@ RESET:
     ; In no case a single cursor would be more than 02FF
   LDA COUNTER+1
   CMP #$02
-  BCS DISPLAYMENU
+  BCC SKIP
+  JMP DISPLAYMENU
 
+SKIP:
     ; Screen not inited correctly, jumping to wozmon
   JMP WOZMON
+.)
+
+; WAIT AND PRINT
+WAITANDPRINT:
+.(
+  JSR INCCOUNTER
+  BIT DSP         ; bit (B7) cleared yet?
+  BMI WAITANDPRINT; No
+
+                  ; Send a space
+  LDA #' '+$80
+  STA DSP
+  RTS
+.)
+
+; Clears COUNTER
+CLRCOUNTER:
+.(
+  LDA #$00        ; Clear counter.
+  STA COUNTER
+  STA COUNTER+1
+  ; #### MISSING RTS!!!
+.)
+
+; Increments COUNTER
+; Destroys A and Flags
+INCCOUNTER:
+.(
+  LDA COUNTER
+  CLC
+  ADC #$01
+  STA COUNTER
+  LDA COUNTER+1
+  ADC #$00
+  STA COUNTER+1
+  RTS
+.)
 
 DISPLAYMENU:
+.(
   ; CR
   LDA #$D
   JSR ECHO
@@ -104,35 +217,6 @@ TESTKEY:
   JSR ECHO
   JMP MENUKEY
 DONETESTKEY:
-  RTS
-
-; WAIT AND PRINT
-WAITANDPRINT:
-  JSR INCCOUNTER
-  BIT DSP         ; bit (B7) cleared yet?
-  BMI WAITANDPRINT; No
-
-                  ; Send a space
-  LDA #' '+$80
-  STA DSP
-  RTS
-
-; Clears COUNTER
-CLRCOUNTER:
-  LDA #$00        ; Clear counter.
-  STA COUNTER
-  STA COUNTER+1
-
-; Increments COUNTER
-; Destroys A and Flags
-INCCOUNTER:
-  LDA COUNTER
-  CLC
-  ADC #$01
-  STA COUNTER
-  LDA COUNTER+1
-  ADC #$00
-  STA COUNTER+1
   RTS
 
 ; Adds Y to PTR, Clear Y
@@ -178,7 +262,6 @@ LOOP11:
 
 
 START:
-
   ; DISPLAY MENU
   LDA #<MENU
   STA PTR
@@ -290,6 +373,7 @@ FOUND:
   CMP #TBASIC   ; Basic
   BEQ TYPE3
   JMP START     ; ### Should print err
+.)
 
 TYPE1:
   INY
@@ -336,7 +420,8 @@ TYPE2:
   JMP (ADRS)
 
 TYPE3:
-  INY
+.(
+   INY
 
   ; Copy the $4A-$FF region
 
@@ -408,6 +493,7 @@ SKIP:
 
   ; RUN PROGRAM
   JMP $EFEC
+.)
 
 ; FROM = source start address
 ;   TO = destination start address
@@ -461,6 +547,360 @@ PROMPT:
     .byte "===================================V1.2=",
     .byte "Your Choice -> "
     .byte $00
+
+
+
+; This is the minimum set of tests to detect if we can run
+
+MEMSIZE=$02
+; PTR=$03         ; Need another name
+CRC = $6           ; 2 bytes in ZP
+CRCLO = $600       ; Two 256-byte tables for quick lookup
+CRCHI = $700       ; (should be page-aligned for speed)
+RAMTYPE=$500
+
+
+
+PAGE_RAM='W'    ; This page is RAM
+PAGE_ROM='R'    ; This page is ROM
+PAGE_CON='.'    ; This page is ROM constant (ie: not mapped)
+PAGE_IO ='I'    ; This page is reserved for I/O
+
+; DSP             = $D012
+; WOZMON          = $FF00
+
+; * = $280
+
+; Display HW check
+HWCHECK:
+.(
+  LDA #$d
+  JSR ECHO
+  JSR MEMMAP
+  JSR PRINTMAP
+
+    ; Wait for a keypress
+LOOP:
+  LDA KBDCR       ; Key ready?
+  BPL LOOP
+  LDA KBD
+  JMP RESET
+.)
+
+; Maps the usage of memory
+MEMMAP:
+.(
+    LDA #$00
+LOOP:
+    PHA
+    JSR TESTPAGE
+    PLA
+    CLC
+    ADC #1
+    BNE LOOP
+    RTS
+.)
+
+TESTPAGE:
+        ; Hard-code "dangerous" pages
+    TAX
+    CMP #$00
+    BEQ IS_RAM
+    CMP #$01
+    BEQ IS_RAM
+    PHA
+    AND #$F0
+    CMP #$D0
+    BEQ IS_IO
+    PLA
+        ; Test for RAM
+    STA PTR+1
+    LDA #$00
+    STA PTR
+    LDY #$00
+    LDA (PTR),Y
+    EOR #$FF
+    STA (PTR),Y
+    CMP (PTR),Y
+    BNE NOT_RAM
+        ; This page is RAM, restore it
+    EOR #$FF
+    STA (PTR),Y
+    JMP IS_RAM
+
+NOT_RAM:
+    ; Let's look if it is constant
+    LDA (PTR),Y
+    JSR CHKPAGE
+    BEQ IS_CON
+
+    ; Normal ROM
+    JMP IS_ROM
+
+CHKPAGE:
+.(
+    LDY #$00
+LOOP:
+    CMP (PTR),Y
+    BNE DONE        ; Different value
+    DEY
+    BNE LOOP
+DONE:
+    RTS
+.)
+
+IS_RAM:
+    LDA #PAGE_RAM
+    JMP STORE
+IS_ROM:
+    LDA #PAGE_ROM
+    JMP STORE
+IS_CON:
+    LDA #PAGE_CON
+    JMP STORE
+IS_IO:
+    PLA
+    LDA #PAGE_IO
+STORE:
+    STA RAMTYPE,X
+    RTS
+
+; Prints the memory map
+PRINTMAP:
+.(
+    JSR MAKECRCTABLE
+    LDA #0
+    STA MEMSIZE
+    JSR PRHEADER
+    LDY #0
+LOOP:
+    LDA #$FF
+    STA CRC
+    STA CRC+1
+
+    LDA #' '
+    JSR ECHO
+    TYA
+    JSR PRBYTE
+    LDA #$00
+    JSR PRBYTE
+    LDA #' '
+    JSR ECHO
+    LDA #':'
+    JSR ECHO
+    LDA #' '
+    JSR ECHO
+    JSR PRINTMAP4
+    JSR PRINTMAP4
+    JSR PRINTMAP4
+    JSR PRINTMAP4
+    LDA CRC
+    CMP #$FF
+    BNE PRINTCRC
+    LDA CRC+1
+    CMP #$FF
+    BEQ SKIP
+PRINTCRC:
+    LDA #' '
+    JSR ECHO
+    LDA CRC+1
+    JSR PRBYTE
+    LDA CRC
+    JSR PRBYTE
+SKIP:
+    LDA #$d
+    JSR ECHO
+    TYA
+    BNE LOOP
+
+      ; Print RAM size
+    LDA #<RAMSTR
+    STA PTR
+    LDA #>RAMSTR
+    STA PTR+1
+    JSR PRSTR
+    LDA MEMSIZE
+    JSR PRBYTE
+    LDA #$00
+    JSR PRBYTE
+    LDA #<BYTESSTR
+    STA PTR
+    LDA #>BYTESSTR
+    STA PTR+1
+    JSR PRSTR
+
+      ; Print BOOT
+    LDA #<BOOTSTR
+    STA PTR
+    LDA #>BOOTSTR
+    STA PTR+1
+    JSR PRSTR
+
+    LDA $FFFC+1
+    CMP #$FF          ; WOZMON
+    BEQ ISWOZMON
+    CMP #$50          ; Apple1Loader
+    BEQ ISLOADER
+    RTS
+
+ISWOZMON:
+    LDA #<WOZMONSTR
+    STA PTR
+    LDA #>WOZMONSTR
+    STA PTR+1
+    JMP PRSTR
+
+ISLOADER:
+    LDA #<LOADERSTR
+    STA PTR
+    LDA #>LOADERSTR
+    STA PTR+1
+    JMP PRSTR
+.)
+
+PRINTMAP4:
+    JSR PRINTMAP1
+    JSR PRINTMAP1
+    JSR PRINTMAP1
+    JSR PRINTMAP1
+    LDA #' '
+    JSR ECHO
+    JMP ECHO
+
+PRINTMAP1:
+.(
+    LDA RAMTYPE,Y
+    JSR ECHO
+    CMP #PAGE_RAM
+    BNE SKIP
+    INC MEMSIZE
+SKIP:
+    CMP #PAGE_ROM
+    BEQ UPDCRCROM
+    INY
+    RTS
+.)
+
+UPDCRCROM:
+.(
+    TYA
+    PHA
+    STA PTR+1
+    LDA #$00
+    STA PTR
+    LDY #0
+LOOP:
+    LDA (PTR),Y
+    JSR UPDCRC
+    DEY
+    BNE LOOP
+    PLA
+    TAY
+    INY
+    RTS
+.)
+
+; Local version of Wozmon in case wozmon isn't available
+; Need to update call sites
+LPRBYTE:
+    PHA
+    LSR
+    LSR
+    LSR
+    LSR
+    JSR LPRHEX
+    PLA
+LPRHEX:
+    AND #$0F
+    ORA #'0'+$80
+    CMP #$BA
+    BCC LECHO
+    ADC #$06
+LECHO:
+    BIT DSP
+    BMI LECHO
+    STA DSP
+    RTS
+
+HEADER:
+.byte $d
+.byte "LEGEND: W=RAM   R=ROM   I=I/O   .=OTHER", $d, $d
+.byte " ADRS   0000  0400  0800  0C00   CRC", $d
+.byte "        ----  ----  ----  ----", $d,0
+
+RAMSTR:
+.byte $d,"      TOTAL RAM: $",0
+BYTESSTR:
+.byte " BYTES",$d,0
+BOOTSTR:
+.byte    "    BOOT VECTOR: ",0
+WOZMONSTR:
+.byte "WOZMON",$d,0
+LOADERSTR:
+.byte "LOADER",$d,0
+
+PRHEADER:
+.(
+    LDA #<HEADER
+    STA PTR
+    LDA #>HEADER
+    STA PTR+1
+.)
+PRSTR:
+.(
+    LDY #0
+LOOP:
+    LDA (PTR),Y
+    BNE CONTINUE
+    RTS
+CONTINUE:
+    JSR ECHO
+    INY
+    JMP LOOP
+.)
+
+
+MAKECRCTABLE:
+         LDX #0          ; X counts from 0 to 255
+BYTELOOP LDA #0          ; A contains the low 8 bits of the CRC-16
+         STX CRC         ; and CRC contains the high 8 bits
+         LDY #8          ; Y counts bits in a byte
+BITLOOP  ASL
+         ROL CRC         ; Shift CRC left
+         BCC NOADD       ; Do nothing if no overflow
+         EOR #$21        ; else add CRC-16 polynomial $1021
+         PHA             ; Save low byte
+         LDA CRC         ; Do high byte
+         EOR #$10
+         STA CRC
+         PLA             ; Restore low byte
+NOADD    DEY
+         BNE BITLOOP     ; Do next bit
+         STA CRCLO,X     ; Save CRC into table, low byte
+         LDA CRC         ; then high byte
+         STA CRCHI,X
+         INX
+         BNE BYTELOOP    ; Do next byte
+         RTS
+
+UPDCRC:
+         EOR CRC+1       ; Quick CRC computation with lookup tables
+         TAX
+         LDA CRC
+         EOR CRCHI,X
+         STA CRC+1
+         LDA CRCLO,X
+         STA CRC
+         RTS
+
+
+
+
+
+
+
+
+
 
 ; Relocatable assembly
 ; Can be executed in-place

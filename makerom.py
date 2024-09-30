@@ -136,6 +136,8 @@ if __name__ == "__main__":
         sys.exit( 4 )
 
     rom = [0] * 32768       # Rom data
+    for i in range(32768):
+        rom[i] = i%256
     usage = [-2] * 32768    # Which content went here (-2 == free, -1 == menu, 0-n == content)
 
     mem2rom = [-1] * 65536
