@@ -18,7 +18,7 @@ You don't have to wait for the menu to display: you can type the key correspondi
 
 You can always return to the menu, by pressing the Reset key (and entering ``5000R`` if needed).
 
-Author: Fred Stark and Antoine Bercovici (2024)
+*Authors: Fred Stark and Antoine Bercovici (2024)*
 
 ## Mandelbrot
 
@@ -36,7 +36,7 @@ I will then wait for 5 seconds, and zoom in a random-but-interesting place. It w
 
 You can skip a display by pressing ``space``. You can return the the top-level Mandelbrot set by pressing ``space`` twice in succession.
 
-Author: Fred Stark (2024)
+*Author: Fred Stark (2024)*
 
 ## WozMon
 
@@ -50,7 +50,7 @@ The fundamental commands to remember are:
 * ``adrsR`` to **R**un at address ``adrs``
 * ``adrs:value1 value2 value3...`` to store ``value1``, ``value2``, ``value3`` starting at ``adrs``. Beware that the display shows the content of the previous value at ``adrs``. This can be confusing sometimes.
 
-Author: Steve Wozniak (1976)
+*Author: Steve Wozniak (1976)*
 
 ## Integer BASIC
 
@@ -66,7 +66,7 @@ This also served as the basis for the BASIC that shipped with the original Apple
 
 Note that Integer BASIC defaults to 4K of RAM. If you have 8K, you may want to use ``HIMEM=8192`` before typing in your program. However, as you can't have both the ROM card and a Cassette Interface Card, it is unlikely you will find use for that much memory.
 
-Author: Steve Wozniak (1976)
+*Author: Steve Wozniak (1976)*
 
 ## Re-entering BASIC
 
@@ -84,7 +84,7 @@ Press ``A`` to execute a 8K memory test, on adresses from ``$0000`` to ``$1FFF``
 
 Each pass will take around 13 seconds.
 
-Author: Mike Willegal (2010)
+*Author: Mike Willegal (2010)*
 
 ## Testing 4K of memory
 
@@ -94,7 +94,7 @@ If you Apple1 only have 4K of memory, from ``$0000`` to ``$0fff``, press ``B`` f
 
 Each pass will take around 6 seconds.
 
-Author: Mike Willegal (2010)
+*Author: Mike Willegal (2010)*
 
 ## Testing the display
 
@@ -104,7 +104,7 @@ With ``C`` you can test the display of your Apple1.
 
 This is useful to check that your Apple1 Character ROM is correct by comparing your display with the above screenshot. It was the sample code given in the Apple 1 manual to verify proper functionality of the computer.
 
-Testing display Steve Wozniak (1976)
+*Author: Steve Wozniak (1976)*
 
 ## Using the Apple2 Monitor
 
@@ -114,7 +114,7 @@ Testing display Steve Wozniak (1976)
 
 This is useful, for instance, to disassemble memory.
 
-Author: Steve Wozniak and Allen Baum (1977). Port by Winston Gayler, Wendell Sander and Jeff Tranter.
+*Authors: Steve Wozniak and Allen Baum (1977). Port by Winston Gayler, Wendell Sander and Jeff Tranter*
 
 ## Using the Apple2 Mini-Assembler
 
@@ -124,7 +124,7 @@ Author: Steve Wozniak and Allen Baum (1977). Port by Winston Gayler, Wendell San
 
 This version have been modified, so entering a '#' in the first column will launch Wozmon. In the above example a simple program that writes an infinite number of ``A`` on screen has been assembled at adress ``$0280``. Then ``#`` is used to launch Wozmon and ``280R`` executes our new assembled software.
 
-Author: Allen Baum (1976)
+*Author: Allen Baum (1976)*
 
 ## Displaying the Memory Map of your Apple 1
 
@@ -134,7 +134,7 @@ Pressing ``?`` will launch a small utility that displays the memory mapping of y
 
 This will allow you to check that the jumpers on the RAM/ROM card are properly configured (memory at 5000-5FFF, 7000 to CFFF and E000-EFFF must be mapped to the card). Mapping F000-FFFF is optional but helps by having ``Reset`` directly laucnhing the menu (You will need to deactivate the on-board Wozmon). Directly booting to the card also activate some tests of the low memory of the Apple1: it will print ``ZP?`` or ``SP?`` in a loop if the zero page or the stack page are not writable. Can be useful to debug your Apple1.
 
-Author: Fred Stark (2024)
+*Author: Fred Stark (2024)*
 
 ## The Apple 30th Demo
 
@@ -142,7 +142,7 @@ Author: Fred Stark (2024)
 
 ![The Woz, in the Apple 30th demo](images/apple-30th.png)
 
-Author: Dave Schmenk (2006)
+*Author: Dave Schmenk (2006)*
 
 ## Playing Tic-Tac-Toe
 
@@ -154,7 +154,7 @@ This is a BASIC program. Pressing ``Reset`` and choosing to re-enter BASIC with 
 
 ![Looking at Tic-Tac-Toe](images/tic-tac-toe-2.png)
 
-Author: [Larry Nelson (1977)](https://www.applefritter.com/node/2902)
+*Author: [Larry Nelson (1977)](https://www.applefritter.com/node/2902)*
 
 ## Landing on the Moon
 
@@ -164,7 +164,7 @@ Author: [Larry Nelson (1977)](https://www.applefritter.com/node/2902)
 
 This game needs no introduction or explanations. It is also harder than it looks...
 
-Author: Unknown, please contact (github issue) if you have info.
+*Author: Unknown, please contact (github issue) if you have info.*
 
 ## A small adventure
 
@@ -174,7 +174,7 @@ Author: Unknown, please contact (github issue) if you have info.
 
 The version included has been patched so one can actually get the key and finish the game...
 
-Author: Arnaud Verhille
+*Author: Arnaud Verhille (2000). Fixes by Fred Stark (2024)*
 
 ## C64 Maze
 
@@ -182,7 +182,7 @@ Press ``5`` and you will cover the screen in little ``/`` and ``\``, re-creating
 
 ![A C64-like maze](images/c64-maze.png)
 
-Author: Antoine Bercovici (2024)
+*Author: Antoine Bercovici (2024)*
 
 ## Micro-Chess
 
@@ -198,7 +198,7 @@ The documentation of [this versions seems to match the one on the apple1](http:/
 
 What an extraordinary feat from Peter R. Jennings to get a full chess program in 1 kilobyte of code!
 
-Author: Peter R. Jennings (1976)
+*Author: Peter R. Jennings (1976)*
 
 ## PASART
 
@@ -208,7 +208,7 @@ Pasart is ``7``. Not sure why it is called this way, but you can get some intere
 
 Try other numbers, like ``18,35,9,1``, ``18,35,61,2`` or ``19,39,55,2``...
 
-Author: Unknown, please contact (github issue) if you have info.
+*Author: Unknown, please contact (github issue) if you have info.*
 
 ## Cellular
 
@@ -218,7 +218,7 @@ Cellular automaton always have been classic for display on old computers, and th
 
 Above is the famous rule 30 automaton (1E in hex). [You can look up the rules from there](https://mathworld.wolfram.com/ElementaryCellularAutomaton.html), but will have to enter them in hexadecimal...
 
-Author: Unknown, please contact (github issue) if you have info.
+*Author: Unknown, please contact (github issue) if you have info.*
 
 ## Mastermind
 
@@ -230,7 +230,7 @@ You are trying to find the code, composed by numbers from 0 to 7.
 
 This is quite difficult, as the numbers can be repeated. You enter a potential solution, and you get a '+' for every number in the right position, and a '-' for every number in the wrong position.
 
-Author: Steve Wozniak (1976)
+*Author: Steve Wozniak (1976)*
 
 ## Nim
 
@@ -244,4 +244,4 @@ At each turn, you have to choose a heap, and remove at least one object from it.
 
 Have fun, but if you don't play absolutely perfectly, your Apple 1 will always win...
 
-Author: Unknown, please contact (github issue) if you have info.
+*Author: Unknown, please contact (github issue) if you have info.*
