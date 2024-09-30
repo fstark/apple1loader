@@ -36,7 +36,7 @@ I will then wait for 5 seconds, and zoom in a random-but-interesting place. It w
 
 You can skip a display by pressing ``space``. You can return the the top-level Mandelbrot set by pressing ``space`` twice in succession.
 
-*Author: Fred Stark (2024)*
+*Author: [Fred Stark (2024)](https://github.com/fstark/mandelbrot65/)*
 
 ## WozMon
 
