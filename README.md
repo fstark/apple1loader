@@ -22,7 +22,7 @@ You can always return to the menu, by pressing the Reset key (and entering ``500
 
 ## Mandelbrot
 
-This is a fast mandelbrot explorer, written specifically for this ROM.
+Pressing **``M``** will launch a fast mandelbrot explorer, written specifically for this ROM.
 
 Source available at: https://github.com/fstark/mandelbrot65/
 
@@ -40,7 +40,7 @@ You can skip a display by pressing ``space``. You can return the the top-level M
 
 ## WozMon
 
-``W`` gives you access to Wozmom. This is useful if you chose to map the $f000-$ffff space, as the Apple1 would now boot the loader instead of the Wozniak monitor.
+**``W``** gives you access to Wozmom. This is useful if you chose to map the $f000-$ffff space, as the Apple1 would now boot the loader instead of the Wozniak monitor.
 
 ![The Wozniak Monitor](images/wozmon.png)
 
@@ -54,7 +54,7 @@ The fundamental commands to remember are:
 
 ## Integer BASIC
 
-``I`` is for *Integer BASIC, which is the original basic of the Apple1.
+**``I``** is for *Integer BASIC, which is the original basic of the Apple1.
 
 The BASIC is present in the ROM and should be mapped to $E000.
 
@@ -70,7 +70,7 @@ Note that Integer BASIC defaults to 4K of RAM. If you have 8K, you may want to u
 
 ## Re-entering BASIC
 
-When you hit reset, you can re-enter the BASIC without losing the current program by using the ``R`` key.
+When you hit reset, you can re-enter the BASIC without losing the current program by using the **``R``** key.
 
 ![Re-entering the BASIC](images/basic-2.png)
 
@@ -78,7 +78,7 @@ The program we entered in BASIC is still present.
 
 ## Testing 8K of memory
 
-Press ``A`` to execute a 8K memory test, on adresses from ``$0000`` to ``$1FFF``.
+Press **``A``** to execute a 8K memory test, on adresses from ``$0000`` to ``$1FFF``.
 
 ![8K memory test](images/8k-memory.png)
 
@@ -88,7 +88,7 @@ Each pass will take around 13 seconds.
 
 ## Testing 4K of memory
 
-If you Apple1 only have 4K of memory, from ``$0000`` to ``$0fff``, press ``B`` for a memory test.
+If you Apple1 only have 4K of memory, from ``$0000`` to ``$0fff``, press **``B``** for a memory test.
 
 ![4K memory test](images/4k-memory.png)
 
@@ -98,7 +98,7 @@ Each pass will take around 6 seconds.
 
 ## Testing the display
 
-With ``C`` you can test the display of your Apple1.
+With **``C``** you can test the display of your Apple1.
 
 ![Display test](images/display-test.png)
 
@@ -108,7 +108,7 @@ This is useful to check that your Apple1 Character ROM is correct by comparing y
 
 ## Using the Apple2 Monitor
 
-``D`` will launch the Apple2 monitor, as you would on a Apple2, using ``CALL -151``.
+**``D``** will launch the Apple2 monitor, as you would on a Apple2, using ``CALL -151``.
 
 ![The Apple2 Monitor](images/apple2-monitor.png)
 
@@ -118,7 +118,7 @@ This is useful, for instance, to disassemble memory.
 
 ## Using the Apple2 Mini-Assembler
 
-``E`` will launch the Apple2 mini-assembler. It was included with the early Integer BASIC versions of the Apple2.
+**``E``** will launch the Apple2 mini-assembler. It was included with the early Integer BASIC versions of the Apple2.
 
 ![The Apple2 mini-assembler](images/mini-assembler.png)
 
@@ -128,7 +128,7 @@ This version have been modified, so entering a '#' in the first column will laun
 
 ## Displaying the Memory Map of your Apple 1
 
-Pressing ``?`` will launch a small utility that displays the memory mapping of your Apple 1. It should be self-explanatory:
+Pressing **``?``** will launch a small utility that displays the memory mapping of your Apple 1. It should be self-explanatory:
 
 ![Memory mapping](images/memory-map.jpg)
 
@@ -138,7 +138,7 @@ This will allow you to check that the jumpers on the RAM/ROM card are properly c
 
 ## The Apple 30th Demo
 
-``1`` will launch the famous Apple 30th Anniversary Demo.
+**``1``** will launch the famous Apple 30th Anniversary Demo.
 
 ![The Woz, in the Apple 30th demo](images/apple-30th.png)
 
@@ -146,7 +146,7 @@ This will allow you to check that the jumpers on the RAM/ROM card are properly c
 
 ## Playing Tic-Tac-Toe
 
-``2`` will launch a classic from the late 70s, early 80s: a BASIC tic-tac-toe game, shown here in a somewhat precarious position.
+**``2``** will launch a classic from the late 70s, early 80s: a BASIC tic-tac-toe game, shown here in a somewhat precarious position.
 
 ![Playing Tic-Tac-Toe](images/tic-tac-toe-1.png)
 
@@ -158,7 +158,7 @@ This is a BASIC program. Pressing ``Reset`` and choosing to re-enter BASIC with 
 
 ## Landing on the Moon
 
-``3`` is for Lunar Lander, a huge classic back in the day.
+**``3``** is for Lunar Lander, a huge classic back in the day.
 
 ![Lunar Lander](images/lunar-lander.png)
 
@@ -168,7 +168,7 @@ This game needs no introduction or explanations. It is also harder than it looks
 
 ## A small adventure
 
-``4`` brings *Little Tower* a small text adventure game for the Apple 1. It is pretty rough on the edges, but you should be able to beat it in a few minutes.
+**``4``** brings *Little Tower* a small text adventure game for the Apple 1. It is pretty rough on the edges, but you should be able to beat it in a few minutes.
 
 ![Little Tower](images/little-tower.png)
 
@@ -178,7 +178,7 @@ The version included has been patched so one can actually get the key and finish
 
 ## C64 Maze
 
-Press ``5`` and you will cover the screen in little ``/`` and ``\``, re-creating the classic Commodore 64 BASIC one-liner.
+Press **``5``** and you will cover the screen in little ``/`` and ``\``, re-creating the classic Commodore 64 BASIC one-liner.
 
 ![A C64-like maze](images/c64-maze.png)
 
@@ -186,7 +186,7 @@ Press ``5`` and you will cover the screen in little ``/`` and ``\``, re-creating
 
 ## Micro-Chess
 
-With ``6`` you get the extraordinary micro-chess, a chess program written originaly for the KIM-1
+With **``6``** you get the extraordinary micro-chess, a chess program written originaly for the KIM-1
 
 ![Microchess playing the French Defense](images/chess.png)
 
@@ -202,7 +202,7 @@ What an extraordinary feat from Peter R. Jennings to get a full chess program in
 
 ## PASART
 
-Pasart is ``7``. Not sure why it is called this way, but you can get some interesting patterns by tring various values.
+Pasart is **``7``**. Not sure why it is called this way, but you can get some interesting patterns by tring various values.
 
 ![A Pasart image](images/pasart.png)
 
@@ -212,7 +212,7 @@ Try other numbers, like ``18,35,9,1``, ``18,35,61,2`` or ``19,39,55,2``...
 
 ## Cellular
 
-Cellular automaton always have been classic for display on old computers, and the Apple1 is no exception. Use ``8`` to run Cellular, a [1d cellular automaton](https://en.wikipedia.org/wiki/Elementary_cellular_automaton). Don't get fooled by the apparent simplicity, [some people believe they contain the secret of eveything](https://en.wikipedia.org/wiki/A_New_Kind_of_Science).
+Cellular automaton always have been classic for display on old computers, and the Apple1 is no exception. Use **``8``** to run Cellular, a [1d cellular automaton](https://en.wikipedia.org/wiki/Elementary_cellular_automaton). Don't get fooled by the apparent simplicity, [some people believe they contain the secret of eveything](https://en.wikipedia.org/wiki/A_New_Kind_of_Science).
 
 ![Rule 30 automaton](images/cellular.png)
 
@@ -222,7 +222,7 @@ Above is the famous rule 30 automaton (1E in hex). [You can look up the rules fr
 
 ## Mastermind
 
-Press ``9`` for the original implementation of Mastermind on the Apple1.  Mastermind was a popular board game in the 70s and early 80s.
+Press **``9``** for the original implementation of Mastermind on the Apple1.  Mastermind was a popular board game in the 70s and early 80s.
 
 ![A game of Mastermind](images/mastermind.png)
 
@@ -234,7 +234,7 @@ This is quite difficult, as the numbers can be repeated. You enter a potential s
 
 ## Nim
 
-Finally, ``0`` will launch [a game of Nim](https://en.wikipedia.org/wiki/Nim), an ancien game, very popular on early computers, as it is easy to program and have an elegant mathematical way for the computer to play.
+Finally, **``0``** will launch [a game of Nim](https://en.wikipedia.org/wiki/Nim), an ancien game, very popular on early computers, as it is easy to program and have an elegant mathematical way for the computer to play.
 
 ![A game of Nim](images/nim.png)
 
