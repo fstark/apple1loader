@@ -18,7 +18,7 @@ You don't have to wait for the menu to display: you can type the key correspondi
 
 You can always return to the menu, by pressing the Reset key (and entering ``5000R`` if needed).
 
-Author: Fred Stark (2024)
+Author: Fred Stark and Antoine Bercovici (2024)
 
 ## Mandelbrot
 
