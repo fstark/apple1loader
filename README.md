@@ -124,9 +124,9 @@ This version have been modified, so entering a '#' in the first column will laun
 
 Author: Allen Baum (1976)
 
-## The Apple 30th Demo
+## Displaying the Memory Map of your Apple 1
 
-Press ``?`` will launch a small utility that displays the memory mapping of your Apple 1. It should be self-explanatory:
+Pressing ``?`` will launch a small utility that displays the memory mapping of your Apple 1. It should be self-explanatory:
 
 ![Memory mapping](images/memory-map.jpg)
 
