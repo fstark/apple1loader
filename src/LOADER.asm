@@ -1,26 +1,47 @@
-;* = $280
+;-----------------------------------------------------------------------------
+; The loader for the 32K RAM/ROM Apple1 card from Aberco/SiliconInsider
+; Author: Frederic Stark (2024)
+;-----------------------------------------------------------------------------
 
+;-----------------------------------------------------------------------------
+; The loader resides at $5000
+;-----------------------------------------------------------------------------
 *= $5000
 
-VERSION = $03
+;-----------------------------------------------------------------------------
+; Zero Page variables
+;-----------------------------------------------------------------------------
+PTR = $30       ; ZP: A temporary pointer
+COUNTER=$30     ; ZP: Counts time for screen output
+ADRS = $32      ; ZP: Holds address to jump to
+SIZE = $34      ; ZP: Holds size of memory to copy
+FROM = $36      ; ZP: Holds source address
+TO = $38        ; ZP: Holds destination address
 
-PTR = $30
-ADRS = $32
+  ; Apple1 known addresses
+KBD     = $D010	; Keyboard I/O
+KBDCR   = $D011 ; Keyboard control
+ECHO    = $FFEF ; Echo a character
+PRBYTE  = $FFDC ; Print a byte
+WOZMON  = $FF00 ; Wozmon entry point
 
-SIZE = $34
-FROM = $36
-TO = $38
+  ; Type of entries
+TEXEC   = 1
+TCOPY   = 2
+TBASIC  = 3
 
-COUNTER=$30     ; Counts time for screen output
-STEP=$32
+  ; Used by the memory map
+MEMSIZE = $02   ; ZP: Memory size 
+CRC     = $06   ; ZP: Current CRC16
+CRCLO   = $600  ; Two 256-byte tables for quick lookup
+CRCHI   = $700  ; (should be page-aligned for speed)
+RAMTYPE = $500  ; 256 bytes for RAM type of each page
 
-KBD    = $D010	; Keyboard I/O
-KBDCR  = $D011
-ECHO   = $FFEF
-PRBYTE = $FFDC
-WOZMON = $FF00
-
-TBASIC=3
+  ; Type of pages
+PAGE_RAM='W'    ; This page is RAM
+PAGE_ROM='R'    ; This page is ROM
+PAGE_CON='.'    ; This page is ROM constant (ie: not mapped)
+PAGE_IO ='I'    ; This page is reserved for I/O
 
 ; We want the loader to be activable via the reset vector at $FFFC
 ; However, the Apple1 is not ready to run at startup
@@ -37,14 +58,15 @@ DSP             = $D012         ;  PIA.B display output register
 DSPCR           = $D013         ;  PIA.B display control register
 
 ; Entry points
-  JMP RESET
-  JMP HWCHECK
+  JMP RESET     ; $5000 is reset
+  JMP HWCHECK   ; $5003 is HW check
 
+;-----------------------------------------------------------------------------
+; The loader
+;-----------------------------------------------------------------------------
 RESET:
 .(
-
-    ; Set up the Apple1 if we replace the WOZMON
-
+    ; Set up the Apple1 in case we replace the WOZMON
   CLD             ; Clear decimal arithmetic mode.
   CLI
   LDY #$7F        ; Mask for DSP data direction register.
@@ -140,7 +162,9 @@ SKIP:
   JMP WOZMON
 .)
 
-; WAIT AND PRINT
+;-----------------------------------------------------------------------------
+; WAIT AND PRINT a space
+;-----------------------------------------------------------------------------
 WAITANDPRINT:
 .(
   JSR INCCOUNTER
@@ -153,13 +177,15 @@ WAITANDPRINT:
   RTS
 .)
 
+;-----------------------------------------------------------------------------
 ; Clears COUNTER
+;-----------------------------------------------------------------------------
 CLRCOUNTER:
 .(
   LDA #$00        ; Clear counter.
   STA COUNTER
   STA COUNTER+1
-  ; #### MISSING RTS!!!
+  RTS
 .)
 
 ; Increments COUNTER
@@ -366,16 +392,20 @@ FOUND:
   DEY
   DEY
   LDA (PTR),Y
-  CMP #1        ; Assembly direct jump
-  BEQ TYPE1
-  CMP #2        ; Assembly copy + jump
-  BEQ TYPE2
+  CMP #TEXEC    ; Assembly direct jump
+  BEQ EXEC
+  CMP #TCOPY    ; Assembly copy + jump
+  BEQ COPY
   CMP #TBASIC   ; Basic
-  BEQ TYPE3
+  BEQ BASIC
   JMP START     ; ### Should print err
 .)
 
-TYPE1:
+; ---------------------------------------------------------------------------
+; Type 1 : Direct jump to address
+; ---------------------------------------------------------------------------
+EXEC:
+.(
   INY
   LDA (PTR),Y
   STA ADRS
@@ -383,43 +413,48 @@ TYPE1:
   LDA (PTR),Y
   STA ADRS+1
   JMP (ADRS)
+.)
 
-TYPE2:
-  
+; ---------------------------------------------------------------------------
+; Type 2 : Copy + jump
+; ---------------------------------------------------------------------------
+COPY:
+.(
+    ; Load FROM, SIZE and ADRS
   INY
   LDA (PTR),Y
   STA FROM
-;  JSR DBGHEX
   INY
   LDA (PTR),Y
   STA FROM+1
-;  JSR DBGHEX
 
   INY
   LDA (PTR),Y
   STA SIZE
-;  JSR DBGHEX
   INY
   LDA (PTR),Y
   STA SIZE+1
-;  JSR DBGHEX
 
   INY
   LDA (PTR),Y
   STA TO
   STA ADRS
-;  JSR DBGHEX
   INY
   LDA (PTR),Y
   STA TO+1
   STA ADRS+1
-;  JSR DBGHEX
 
+    ; Copy source
   JSR MEMCPY
 
+    ; Jump to address
   JMP (ADRS)
+.)
 
-TYPE3:
+; ---------------------------------------------------------------------------
+; Type 3 : Basic program
+; ---------------------------------------------------------------------------
+BASIC:
 .(
    INY
 
@@ -446,14 +481,11 @@ TYPE3:
 
   TYA
   PHA
-  ; Copy ZP
   JSR MEMCPY
   PLA
   TAY
 
-  ; Copy the rest
-
-  ; Get the original source
+  ; Copy the tokenized basic program
   DEY
   LDA (PTR),Y
   STA FROM
@@ -495,39 +527,42 @@ SKIP:
   JMP $EFEC
 .)
 
+; ---------------------------------------------------------------------------
 ; FROM = source start address
 ;   TO = destination start address
 ; SIZE = number of bytes to move
-
-MEMCPY   LDY #0
-         LDX SIZE+1
-         BEQ MD2
-MD1      LDA (FROM),Y ; move a page at a time
-         STA (TO),Y
-         INY
-         BNE MD1
-         INC FROM+1
-         INC TO+1
-         DEX
-         BNE MD1
-MD2      LDX SIZE
-         BEQ MD4
-MD3      LDA (FROM),Y ; move the remaining bytes
-         STA (TO),Y
-         INY
-         DEX
-         BNE MD3
-MD4      RTS
-
-
-DBGHEX:
-  PHA
-  JSR PRBYTE
-  PLA
+; ---------------------------------------------------------------------------
+MEMCPY:
+.(
+  LDY #0
+  LDX SIZE+1
+  BEQ MD2
+MD1:
+  LDA (FROM),Y ; move a page at a time
+  STA (TO),Y
+  INY
+  BNE MD1
+  INC FROM+1
+  INC TO+1
+  DEX
+  BNE MD1
+MD2:
+  LDX SIZE
+  BEQ MD4
+MD3:
+  LDA (FROM),Y ; move the remaining bytes
+  STA (TO),Y
+  INY
+  DEX
+  BNE MD3
+MD4:
   RTS
+.)
 
+; ---------------------------------------------------------------------------
+; The banner
+; ---------------------------------------------------------------------------
 BANNER:
-    ; .byte $00
 ;          12345678901234567890123456789012345678901234567890
     .byte "    ___    ____  ____  __    ______   __"
     .byte "   /   !  / __ \\/ __ \\/ /   / ____/  / /"
@@ -543,35 +578,15 @@ BANNER:
     .byte "========================================",
     .byte $00
 
+; ---------------------------------------------------------------------------
+; The prompt
+; ---------------------------------------------------------------------------
 PROMPT:
     .byte "===================================V1.2=",
     .byte "Your Choice -> "
     .byte $00
 
-
-
-; This is the minimum set of tests to detect if we can run
-
-MEMSIZE=$02
-; PTR=$03         ; Need another name
-CRC = $6           ; 2 bytes in ZP
-CRCLO = $600       ; Two 256-byte tables for quick lookup
-CRCHI = $700       ; (should be page-aligned for speed)
-RAMTYPE=$500
-
-
-
-PAGE_RAM='W'    ; This page is RAM
-PAGE_ROM='R'    ; This page is ROM
-PAGE_CON='.'    ; This page is ROM constant (ie: not mapped)
-PAGE_IO ='I'    ; This page is reserved for I/O
-
-; DSP             = $D012
-; WOZMON          = $FF00
-
-; * = $280
-
-; Display HW check
+  ; Display HW check
 HWCHECK:
 .(
   LDA #$d
@@ -900,55 +915,8 @@ UPDCRC:
 
 
 
-
-
-; Relocatable assembly
-; Can be executed in-place
-; EXAMPLE1:
-; EX1PTR = $30
-;     LDA #<EX1DATA
-;     STA EX1PTR
-;     LDA #>EX1DATA
-;     STA EX1PTR+1
-;     LDY #$0
-; EX1LOOP:
-;     LDA (PTR),Y
-;     JSR $FFEF
-;     INY
-;     TYA
-;     CMP #16
-;     BNE EX1LOOP
-;     RTS
-; EX1DATA:
-;     .byte "Hello, World ROM"
-
-; Non-relocatable assembly
-; Must be executed from $280
-; EXAMPLE2:
-; EX2PTR = $30
-;     JMP $283
-;     LDA #<EX2DATA
-;     STA EX2PTR
-;     LDA #>EX2DATA
-;     STA EX2PTR+1
-;     LDY #$0
-; EX2LOOP:
-;     LDA (PTR),Y
-;     JSR $FFEF
-;     INY
-;     TYA
-;     CMP #16
-;     BNE EX2LOOP
-;     RTS
-; EX2DATA:
-;     .byte "Hello, World RAM"
-
-
-; EXAMPLE3:
-
 MENU:
-  ; The menu needs to be just after the loader
-
+; The menu needs to be just after the loader
 
 ; MENU structure
 ; TYPE    0x00 End of menu
