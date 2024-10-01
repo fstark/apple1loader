@@ -1,4 +1,4 @@
-# Loader for the Aberco/SiliconInsider Apple1 32K ROM Card
+# Loader for the Aberco/SiliconInsider Apple1 32K RAM/ROM Card
 
 This is the loader for aberco/SiliconInsider 32K ROM for the Apple1
 
@@ -229,6 +229,8 @@ Press **``9``** for the original implementation of Mastermind on the Apple1.  Ma
 You are trying to find the code, composed by numbers from 0 to 7. 
 
 This is quite difficult, as the numbers can be repeated. You enter a potential solution, and you get a '+' for every number in the right position, and a '-' for every number in the wrong position.
+
+The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Computer Calisthenics & Orthodontia", September 1976](http://cini.classiccmp.org/pdf/DrDobbs/DrDobbs-1976-09-v1n8.pdf). Yes, this is how we distributed software before the internet... In the same issue of Dr Dpbb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
 
 *Author: Steve Wozniak (1976)*
 
