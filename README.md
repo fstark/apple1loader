@@ -60,7 +60,7 @@ The BASIC is present in the ROM and should be mapped to $E000.
 
 ![The Integer BASIC](images/basic-1.png)
 
-You can now create the standard ``10 PRINT``, ``20 GOTO 10`` demos!
+You can now create amazing ``10 PRINT``, ``20 GOTO 10`` demos!
 
 This also served as the basis for the BASIC that shipped with the original Apple2. [Here is the original manual for the basic](https://ia801902.us.archive.org/11/items/apple1_basic_manual/apple1_basic_manual.pdf).
 
@@ -75,6 +75,8 @@ When you hit reset, you can re-enter the BASIC without losing the current progra
 ![Re-entering the BASIC](images/basic-2.png)
 
 The program we entered in BASIC is still present.
+
+*Author: Steve Wozniak (1976)*
 
 ## Testing 8K of memory
 
@@ -102,7 +104,7 @@ With **``C``** you can test the display of your Apple1.
 
 ![Display test](images/display-test.png)
 
-This is useful to check that your Apple1 Character ROM is correct by comparing your display with the above screenshot. It was the sample code given in the Apple 1 manual to verify proper functionality of the computer.
+This is useful to check that your Apple1 Character ROM is correct by comparing your display with the above screenshot. [It was the sample code given in the Apple 1 manual](https://s3data.computerhistory.org/brochures/apple.applei.1976.102646518.pdf) to verify proper functionality of the computer.
 
 *Author: Steve Wozniak (1976)*
 
@@ -230,7 +232,9 @@ You are trying to find the code, composed by numbers from 0 to 7.
 
 This is quite difficult, as the numbers can be repeated. You enter a potential solution, and you get a '+' for every number in the right position, and a '-' for every number in the wrong position.
 
-The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Computer Calisthenics & Orthodontia", September 1976](http://cini.classiccmp.org/pdf/DrDobbs/DrDobbs-1976-09-v1n8.pdf). Yes, this is how we distributed software before the internet... In the same issue of Dr Dpbb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
+The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Computer Calisthenics & Orthodontia", September 1976](http://cini.classiccmp.org/pdf/DrDobbs/DrDobbs-1976-09-v1n8.pdf). Yes, this is how we distributed software before the internet... Beware that in the time you often typed code from magazine to find they were not working as expected. This is no different, and the above listing contains a bug (GUESS at $FB is too high, and GUESS+5 will be $100, wreaking havoc on the code...)
+
+In the same issue of Dr Dpbb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
 
 *Author: Steve Wozniak (1976)*
 

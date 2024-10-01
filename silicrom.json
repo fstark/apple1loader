@@ -143,7 +143,7 @@
 		{
 			"comment" : "Mastermind is at 0x0300",
 			"type" : "copy",
-			"path" : "software/MASTERMIND",
+			"path" : "src/MASTERMIND",
 			"menu" : "MASTERMIND",
 			"key"  : "9",
 			"load" : "0x0300"
