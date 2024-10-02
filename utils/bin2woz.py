@@ -3,20 +3,21 @@ import sys
 def wozfromfile(file_path, adrs):
     try:
         with open(file_path, 'rb') as file:
-            count = 0
             byte = file.read(1)
+            line = ""
+            sep = ""
             while byte:
-                if count==0 or adrs % 8 == 0:
-                    print(f"{adrs:04X}: ", end='')
+                if len(line)+3 > 127:
+                    print(line)
+                    line = ""
+                if line=="":
+                    line = f"{adrs:X}:"
                     sep = ""
-                sep = ","
-                print( byte.hex(), end=" ")
-                count += 1
+                line += f"{sep}{ord(byte):X}"
+                sep = " "
                 adrs += 1
-                if adrs % 8 == 0:
-                    print()
                 byte = file.read(1)
-        print()
+        print(line)
     except FileNotFoundError:
         print("File not found.")
 
