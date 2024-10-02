@@ -61,6 +61,7 @@ BITGEN:
 	ROL N-1,X
 	DEY
 	BNE BITGEN
+TOGGLE:
 	JMP CHECK			; Added by FReD: check N-1,X is different from previous numbers
 CHECKOK:
 	DEX
@@ -179,13 +180,16 @@ DUPS:
 	JMP DIGEN
 
 CFGCHECK:
-	CMP #'E'+$80
-	BEQ DONE
-	LDA #$EA ; NOP
-	STA CHECKOK-3
-	STA CHECKOK-2
-	STA CHECKOK-1
-	LDA #'!'+80
+	CMP #'M'+$80
+	BNE DONE
+	LDA #$60 ; JMP (4C) ^ BIT (2C)
+	EOR TOGGLE
+	STA TOGGLE
+	JSR PRBYTE
+	CLC
+	ADC #$41		; '!' or 'A'
+	LDA #'!'+$80
 	JSR COUT
 DONE:
 	RTS
+
