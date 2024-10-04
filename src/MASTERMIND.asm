@@ -17,7 +17,7 @@ STROBE	=$D011
 
 *=$300
 
-#define noFRED_PATCH
+#define FRED_PATCH
 
 MSTMND:
 	LDX #$8

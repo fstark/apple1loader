@@ -232,9 +232,9 @@ You are trying to find the code, composed by numbers from 0 to 7.
 
 This is quite difficult, as the numbers can be repeated. You enter a potential solution, and you get a '+' for every number in the right position, and a '-' for every number in the wrong position.
 
-The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Computer Calisthenics & Orthodontia", September 1976](http://cini.classiccmp.org/pdf/DrDobbs/DrDobbs-1976-09-v1n8.pdf). Yes, this is how we distributed software before the internet... Beware that in the time you often typed code from magazine to find they were not working as expected. This is no different, and the above listing contains a bug (GUESS at $FB is too high, and GUESS+5 will be $100, wreaking havoc on the code...)
+The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Computer Calisthenics & Orthodontia", September 1976](http://cini.classiccmp.org/pdf/DrDobbs/DrDobbs-1976-09-v1n8.pdf). Yes, this is how we distributed software before the internet... Beware that in the time you often typed code from magazine to find they were not working as expected. This is no different, and the above listing contains a bug (GUESS at $FB is too high, and GUESS+5 will be $100, wreaking havoc on the code...). As I had to change the code and am very bad at mastermind, I added a small trick: pressing ``@`` when ``READY?`` is displayed will switch to *easy mode*, where each number will be used at most once in the code... A simple ``#define`` lets you revert to the original fixed code.
 
-In the same issue of Dr Dpbb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
+In the same issue of Dr Dobb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
 
 *Author: Steve Wozniak (1976)*
 
