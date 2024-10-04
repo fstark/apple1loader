@@ -17,6 +17,8 @@ STROBE	=$D011
 
 *=$300
 
+#define noFRED_PATCH
+
 MSTMND:
 	LDX #$8
 MSGLP:
@@ -33,7 +35,9 @@ RND2:
 	LDA STROBE
 	BPL RNDLP
 	JSR CHARIN			; CLEAR STROBE.
-	JSR CFGCHECK		; FReD: configure "easy mode" if key pressed is E
+#ifdef FRED_PATCH
+	JMP CFGCHECK		; FReD: configure "easy mode" if key pressed is 'M'. Easymode is displayed as '@'
+#endif
 NXTRY:
 	SEC
 	SED
@@ -61,8 +65,10 @@ BITGEN:
 	ROL N-1,X
 	DEY
 	BNE BITGEN
+#ifdef FRED_PATCH
 TOGGLE:
-	JMP CHECK			; Added by FReD: check N-1,X is different from previous numbers
+	BIT CHECK			; Added by FReD: check N-1,X is different from previous numbers
+#endif
 CHECKOK:
 	DEX
 	BNE DIGEN
@@ -138,6 +144,7 @@ CHARIN:
 	LDA KBD				; READ KEY AND CLEAR STROBE.
 	RTS
 
+#ifdef FRED_PATCH
 ; ---------------------------------------
 ; Done at the end as not to pollute Wozniak's code
 ;
@@ -164,7 +171,15 @@ LOOP:
 	INY
 	LDA N-1,X
 	CMP N-1,Y
-	BEQ DUPS
+	BNE LOOP
+		; This is a duplicat, we try the next digit
+	TXA
+	TAY
+	LDA N-1,X
+	CLC
+	ADC #1
+	AND #$07
+	STA N-1,X
 	JMP LOOP
 
 NODUPS:
@@ -181,15 +196,14 @@ DUPS:
 
 CFGCHECK:
 	CMP #'M'+$80
-	BNE DONE
+	BEQ DOTOGGLE
+	JMP NXTRY
+DOTOGGLE:
 	LDA #$60 ; JMP (4C) ^ BIT (2C)
 	EOR TOGGLE
 	STA TOGGLE
-	JSR PRBYTE
-	CLC
-	ADC #$41		; '!' or 'A'
-	LDA #'!'+$80
+	SEC
+	SBC #$0C		; ' ' or '@'
 	JSR COUT
-DONE:
-	RTS
-
+	JMP MSTMND
+#endif
