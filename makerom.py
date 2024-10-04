@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     rom = [0] * 32768       # Rom data
     for i in range(32768):
-        rom[i] = i%256
+        rom[i] = 0xff       # Default value for an eprom
     usage = [-2] * 32768    # Which content went here (-2 == free, -1 == menu, 0-n == content)
 
     mem2rom = [-1] * 65536
