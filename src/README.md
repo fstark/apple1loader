@@ -32,3 +32,8 @@ The version of Little Tower floating around is broken. Here is a version I fixed
 ## MEMCHECK
 
 This is the first standalone version of the "Memory Map" option from the loader. The source code is now integrated into LOADER.asm
+
+## MASTERMIND
+
+tr '0-9' 'A-Z' | sed -e 's/^...//g' | sed -e 's/ *$//g' | sed -e 's/ -/ 0-/g' | sed -e 's/\+$/+0/g' | sed -e 's/\([A-Z]\)$/\100/g' | sed -e 's/-----/5/g' | sed -e 's/----/4/g' | sed -e 's/---/3/g' | sed -e 's/--/2/g' | sed -e 's/-/1/g' | sed -e 's/\+\+\+\+\+/5/g' | sed -e 's/\+\+\+\+/4/g' | sed -e 's/\+\+\+/3/g' | sed -e 's/\+\+/2/g' | sed -e 's/\+/1/g'
+https://www.dcode.fr/mastermind-solver
