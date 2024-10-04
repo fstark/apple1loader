@@ -651,10 +651,11 @@ TESTPAGE:
     JMP IS_RAM
 
 NOT_RAM:
-    ; Let's look if it is constant
-    LDA (PTR),Y
-    JSR CHKPAGE
-    BEQ IS_CON
+    ; Let's look if it is constant and equal to MSB
+    ; (ie: page $56xx is all $56)
+    LDA PTR+1     ; Get page number
+    JSR CHKPAGE   ; Check if all bytes are the same
+    BEQ IS_CON    ; Constant page
 
     ; Normal ROM
     JMP IS_ROM
