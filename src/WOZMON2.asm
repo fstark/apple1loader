@@ -156,5 +156,5 @@ ECHO:           BIT DSP         ; bit (B7) cleared yet?
 
                 .WORD $0F00     ; NMI
                 ; .WORD RESET     ; RESET
-                .WORD $5000     ; MENU
+                .WORD $2000     ; MENU
                 .WORD $0000     ; BRK/IRQ

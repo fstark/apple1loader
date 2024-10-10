@@ -10,12 +10,12 @@ This is the menu/loader assembly code
 
 ## WOZMON2
 
-This is wozmon, changed to have the reset vector pointing to $5000, the address of the menu/loader.
+This is wozmon, changed to have the reset vector pointing to $2000, the address of the menu/loader.
 I also added the '#' command to jump to wozmon
 
 ## A2MON
 
-This is the Apple 2 monitor, change to assemble to $73FA to be placed in the $7000-$7ffff bank of memory, before wozmon at $7f00 (memory at $7xxx can be optionally mapped to $fxxx)
+This is the Apple 2 monitor, changed to assemble to $73FA to be placed in the $7000-$7fff bank of memory, before wozmon at $7f00 (memory at $7xxx can be optionally mapped to $fxxx)
 
 ## LABYRINTH
 

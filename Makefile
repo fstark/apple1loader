@@ -29,7 +29,7 @@ software/mandelbrot65.o65:
 
 silicrom.rom: silicrom.json $(SOFTS_BIN) $(SOFTS_SRC) $(PATCHES) makerom.py
 	@echo "Building the silicon rom"
-	@python makerom.py $< $@
+	@python3 makerom.py $< $@
 
 clean:
 	rm -f a.snp

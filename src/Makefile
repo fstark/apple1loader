@@ -12,13 +12,13 @@ clean:
 A2MON: A2MON.asm
 	# ca65 -g -l A2MON.lst A2MON.s
 	ca65 A2MON.asm
-	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -o A2MON A2MON.o
+	ld65 -C none.cfg -vm -o A2MON A2MON.o
 	@rm A2MON.o
 
 LITTLETOWER: LITTLETOWER.asm
 	# ca65 -l LITTLETOWER.lst  LITTLETOWER.asm
 	ca65 LITTLETOWER.asm
-	ld65 -C /usr/share/cc65/cfg/none.cfg -vm -o LITTLETOWER LITTLETOWER.o
+	ld65 -C none.cfg -vm -o LITTLETOWER LITTLETOWER.o
 	@rm LITTLETOWER.o
 
 TICTACTOE: TICTACTOE.core

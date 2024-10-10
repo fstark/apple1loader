@@ -1,6 +1,5 @@
 {
-	"xmap" : "5789ABCE",
-	"map" :  "5789ABCE",
+	"map" :  "2345789E",
 	"loader" :
 	{
 		"keys" : "M1W2I3R4A5B6C7D8E9?0"
@@ -8,15 +7,15 @@
 	"content" :
 	[
 		{
-			"comment" : "The loader is at 0x5000",
-			"adrs" : "0x5000",
+			"comment" : "The loader is at 0x2000",
+			"adrs" : "0x2000",
 			"type" : "exec",
 			"path" : "src/LOADER",
 			"loader" : true
 		},
 		{
-			"comment" : "The hw checker entry points is at 0x5003",
-			"adrs" : "0x5003",
+			"comment" : "The hw checker entry points is at 0x2003",
+			"adrs" : "0x2003",
 			"menu" : "MEMORY MAP",
 			"type" : "exec",
 			"path" : "/dev/null",
@@ -66,8 +65,7 @@
 			"path" : "software/CELLULAR",
 			"menu" : "CELLULAR",
 			"key"  : "8",
-			"load" : "0x0300",
-			"adrs" : "0x7000"
+			"load" : "0x0300"
 		},
 		{
 			"comment" : "C64 Maze",
@@ -77,6 +75,31 @@
 			"key"  : "5",
 			"load" : "0x0280"
 		},
+		{
+			"comment" : "Apple 30th",
+			"type" : "copy",
+			"path" : "software/APPLE30TH",
+			"menu" : "APPLE 30TH",
+			"load" : "0x0280",
+			"key"  : "1"
+		},
+		{
+			"type" : "copy",
+			"path" : "src/LITTLETOWER",
+			"menu" : "LITTLE TOWER",
+			"key"  : "4",
+			"load" : "0x0300"
+		},
+		{
+			"comment" : "Tic Tac Toe (BASIC)",
+			"type" : "basic",
+			"path" : "src/TICTACTOE",
+			"menu" : "TIC-TAC-TOE",
+			"key"  : "2",
+			"load" : "0x0800"
+		},
+
+
 		{
 			"comment" : "Apple ][ monitor",
 			"type" : "exec",
@@ -101,36 +124,15 @@
 			"menu" : "WOZMON",
 			"key"  : "W"
 		},
-		{
-			"comment" : "Apple 30th",
-			"type" : "copy",
-			"adrs" : "0x8000",
-			"path" : "software/APPLE30TH",
-			"menu" : "APPLE 30TH",
-			"load" : "0x0280",
-			"key"  : "1"
-		},
-		{
-			"type" : "copy",
-			"path" : "src/LITTLETOWER",
-			"menu" : "LITTLE TOWER",
-			"key"  : "4",
-			"load" : "0x0300"
-		},
-		{
-			"comment" : "Tic Tac Toe (BASIC)",
-			"type" : "basic",
-			"path" : "src/TICTACTOE",
-			"menu" : "TIC-TAC-TOE",
-			"key"  : "2",
-			"load" : "0x0800"
-		},
+
+
 		{
 			"type" : "copy",
 			"path" : "software/MICROCHESS2",
 			"menu" : "MICROCHESS",
 			"key"  : "6",
-			"load" : "0x1000"
+			"load" : "0x1000",
+			"adrs" : "0x8000"
 		},
 		{
 			"comment" : "Lunar Lander",
@@ -156,6 +158,9 @@
 			"key"  : "M",
 			"load" : "0x0280"
 		},
+
+
+
 		{
 			"type" : "exec",
 			"path" : "software/BASIC",
