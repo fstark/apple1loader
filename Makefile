@@ -1,10 +1,10 @@
 # Makes the silicon rom
-all: silicrom.rom
+all: 32KA1COMPIL.BIN
 
 # Create the EEPROM and copies it to an X28C256
-eeprom: silicrom.rom
+eeprom: 32KA1COMPIL.BIN
 	@echo "Copy of binary into a 28256 via MiniPro"
-	minipro -p X28C256 -w silicrom.rom
+	minipro -p X28C256 -w 32KA1COMPIL.BIN
 
 SOFTS_SRC = src/LABYRINTH src/LOADER src/WOZMON2 src/A2MON src/TICTACTOE src/LITTLETOWER src/MASTERMIND
 SOFTS_BIN = software/APPLE30TH software/BASIC software/CELLULAR software/DISPLAY.bin software/LUNARLANDER software/MASTERMIND software/MEMORYTEST software/MICROCHESS2 software/NIM.04AF software/PASART.FIXED software/TYPINGTUTOR.FIXED software/WOZMON software/mandelbrot65.o65
@@ -27,8 +27,8 @@ software/mandelbrot65.o65:
 
 # All files in the software directory are already built
 
-silicrom.rom: silicrom.json $(SOFTS_BIN) $(SOFTS_SRC) $(PATCHES) makerom.py
-	@echo "Building the silicon rom"
+32KA1COMPIL.BIN: 32KA1COMPIL.json $(SOFTS_BIN) $(SOFTS_SRC) $(PATCHES) makerom.py
+	@echo "Building the 32KA1COMPIL rom"
 	@python3 makerom.py $< $@
 
 clean:
@@ -38,5 +38,5 @@ clean:
 	rm -f software/mandelbrot65.o65
 
 # This only works on my machine :-)
-mame: silicrom.rom
+mame: 32KA1COMPIL.BIN
 	~/Development/mame/mame -debug apple1 -ui_active -resolution 640x480 -snapshot a.snp

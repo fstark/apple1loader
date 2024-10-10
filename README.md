@@ -4,7 +4,7 @@ This is the loader for aberco/SiliconInsider 32K ROM for the Apple1
 
 It contains an assortment of software for the Apple1, to test and demo the machine.
 
-The rom file is [silicrom.rom](silicrom.rom).
+The rom file is [32KA1COMPIL.BIN](32KA1COMPIL.BIN).
 
 You can build the ROM using the top-level Makefile, if you have the right tools installed (xa assembler, ca65 tool suite, python3).
 

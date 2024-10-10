@@ -14,12 +14,12 @@
 
 # Build the ROM
 
-python makerom.py silicrom.json silicrom.rom
+python makerom.py 32KA1COMPIL.json 32KA1COMPIL.BIN
 
 
 # Flash rom
 
-# minipro -p X28C256 -w silicrom.rom -y
+# minipro -p X28C256 -w 32KA1COMPIL.BIN -y
 
 ( cd src && make clean )
 
