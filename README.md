@@ -10,13 +10,13 @@ You can build the ROM using the top-level Makefile, if you have the right tools 
 
 # Content of the ROM
 
-When booting you Apple1 (if you mapped the $F000-$FFFF region), or after executing ``5000R``, you will be greated by this menu (after having cleared the screen and pressed reset):
+When booting you Apple1 (if you mapped the $F000-$FFFF region), or after executing ``2000R``, you will be greated by this menu (after having cleared the screen and pressed reset):
 
 ![The welcome menu](images/menu.png)
 
 You don't have to wait for the menu to display: you can type the key corresponding to the program you want to execute during the display.
 
-You can always return to the menu, by pressing the Reset key (and entering ``5000R`` if needed).
+You can always return to the menu, by pressing the Reset key (and entering ``2000R`` if needed).
 
 *Authors: Fred Stark and Antoine Bercovici (2024)*
 
