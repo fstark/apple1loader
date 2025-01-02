@@ -8,6 +8,7 @@ clean:
 # All .asm files are built by running xa on them
 %: %.asm
 	xa -XCA65 -o $@ $<
+	# xa -XCA65 -P $*.lst -l $*.lbl -o $@ $<
 
 A2MON: A2MON.asm
 	# ca65 -g -l A2MON.lst A2MON.s
