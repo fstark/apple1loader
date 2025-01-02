@@ -1,6 +1,6 @@
-# Loader for the Aberco/SiliconInsider Apple1 32K RAM/ROM Card
+# Loader for the Aberco/SiliconInsider Apple1 64K RAM/ROM Card
 
-This is the loader for aberco/SiliconInsider 32K ROM for the Apple1
+This is the loader for aberco/SiliconInsider 64K ROM for the Apple1
 
 It contains an assortment of software for the Apple1, to test and demo the machine.
 
