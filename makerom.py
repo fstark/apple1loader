@@ -212,7 +212,11 @@ if __name__ == "__main__":
 
         if "loader" in content and content["loader"]:
             menu_adrs = next_adrs
-            next_adrs += 500        # Should calc the menu size instead!
+            # Each entry is 8 header bytes + name + NUL (a skip has an empty name), plus a final NUL
+            menu_size = 1 + sum(9 for k in loaded_data["loader"]["keys"] if k==" ") + sum(
+                9+len(c["menu"]) for k in loaded_data["loader"]["keys"] for c in loaded_data["content"]
+                if c.get("key")==k and c["type"] in ("exec","copy","basic"))
+            next_adrs += menu_size
 
         content_index += 1
         if failed:
@@ -236,6 +240,7 @@ if __name__ == "__main__":
                     if content["type"]=="basic":
                         add_menu_basic( key, content["menu"], content["real_adrs"], content["real_len"], content["load_adrs"] )
         menu.append( 0 )
+        assert menu_adrs==-1 or len(menu)==menu_size, f"menu is {len(menu)} bytes, reserved {menu_size}"
 
         # if len(menu)>256:
         #     print( f"Menu too large {len(menu)} bytes. Must be <=256 ({len(menu)-256} bytes less)." )

@@ -12,9 +12,13 @@
 
 ( cd software && rm -f mandelbrot65.o65 && wget https://github.com/fstark/mandelbrot65/raw/refs/heads/main/mandelbrot65.o65 )
 
+# Convert APPLE 50 hex dump
+
+python3 utils/apple50hex2bin.py software/apple50.hex software/APPLE50
+
 # Build the ROM
 
-python makerom.py 32KA1COMPIL.json 32KA1COMPIL.BIN
+python3 makerom.py 32KA1COMPIL.json 32KA1COMPIL.BIN
 
 
 # Flash rom
