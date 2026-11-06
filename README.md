@@ -146,17 +146,13 @@ This will allow you to check that the jumpers on the RAM/ROM card are properly c
 
 *Author: Dave Schmenk (2006)*
 
-## Playing Tic-Tac-Toe
+## The Apple 50th Demo
 
-**``2``** will launch a classic from the late 70s, early 80s: a BASIC tic-tac-toe game, shown here in a somewhat precarious position.
+**``2``** will launch the Apple 50th Anniversary Demo, celebrating fifty years of Apple (April 1, 1976 - 2026) with ASCII art of Apple's iconic machines, from the Apple-1 to today. Press any key to go to the next picture, or ``Esc`` to return to the monitor.
 
-![Playing Tic-Tac-Toe](images/tic-tac-toe-1.png)
+![The Macintosh 128K, in the Apple 50th demo](images/apple-50th.png)
 
-This is a BASIC program. Pressing ``Reset`` and choosing to re-enter BASIC with the ``R`` option will let you admire the source code:
-
-![Looking at Tic-Tac-Toe](images/tic-tac-toe-2.png)
-
-*Author: [Larry Nelson (1977)](https://www.applefritter.com/node/2902)*
+*Author: Jonathan Turpin (2026)*
 
 ## Landing on the Moon
 
@@ -237,17 +233,3 @@ The game comes from [Volume 1, Number 8, Page 26 of "Dr Dobb's Journal of Comput
 In the same issue of Dr Dobb's, you'll find the source code of the 6502 Disassembler above, and, page 35, the original criticism of the 56-bits DES encryption algorithm by Hellman and Diffie themselves...
 
 *Author: Steve Wozniak (1976)*
-
-## Nim
-
-Finally, **``0``** will launch [a game of Nim](https://en.wikipedia.org/wiki/Nim), an ancien game, very popular on early computers, as it is easy to program and have an elegant mathematical way for the computer to play.
-
-![A game of Nim](images/nim.png)
-
-At the begining you choose how many heaps you want, and how many objects you want on each heap. Remember that you will play first.
-
-At each turn, you have to choose a heap, and remove at least one object from it. The player that removes the last object from the last heap wins (this is the opposite of the way it is commonly played, but doesn't change the core game).
-
-Have fun, but if you don't play absolutely perfectly, your Apple 1 will always win...
-
-*Author: Unknown, please contact (github issue) if you have info.*

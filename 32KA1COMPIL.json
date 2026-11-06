@@ -2,7 +2,7 @@
 	"map" :  "2345789E",
 	"loader" :
 	{
-		"keys" : "M1W2I3R4A5B6C7D8E9?0"
+		"keys" : "M1W2I3R4A5B6C7D8E9? "
 	},
 	"content" :
 	[
@@ -23,27 +23,11 @@
 		},
 		{
 			"type" : "copy",
-			"path" : "software/NIM.04AF",
-			"patch": "patches/NIM",
-			"menu" : "NIM",
-			"key"  : "0",
-			"load" : "0x0300"
-		},
-		{
-			"type" : "copy",
 			"path" : "software/MEMORYTEST",
 			"patch": "patches/4KMEMTEST",
 			"menu" : "4K MEMORY TEST",
 			"load" : "0x0280",
 			"key"  : "B"
-		},
-		{
-			"type" : "copy",
-			"path" : "software/MEMORYTEST",
-			"patch": "patches/8KMEMTEST",
-			"menu" : "8K MEMORY TEST",
-			"load" : "0x0280",
-			"key"  : "A"
 		},
 		{
 			"type" : "copy",
@@ -57,14 +41,6 @@
 			"path" : "software/PASART.FIXED",
 			"menu" : "PASART",
 			"key"  : "7",
-			"load" : "0x0300"
-		},
-		{
-			"comment" : "CELLULAR: Cellular Automata is at 0x0300",
-			"type" : "copy",
-			"path" : "software/CELLULAR",
-			"menu" : "CELLULAR",
-			"key"  : "8",
 			"load" : "0x0300"
 		},
 		{
@@ -84,22 +60,40 @@
 			"key"  : "1"
 		},
 		{
+			"comment" : "Apple 50th (generated from software/apple50.hex by utils/apple50hex2bin.py)",
 			"type" : "copy",
-			"path" : "src/LITTLETOWER",
-			"menu" : "LITTLE TOWER",
-			"key"  : "4",
+			"path" : "software/APPLE50",
+			"menu" : "APPLE 50TH",
+			"key"  : "2",
 			"load" : "0x0300"
 		},
 		{
-			"comment" : "Tic Tac Toe (BASIC)",
-			"type" : "basic",
-			"path" : "src/TICTACTOE",
-			"menu" : "TIC-TAC-TOE",
-			"key"  : "2",
-			"load" : "0x0800"
+			"type" : "copy",
+			"path" : "software/MICROCHESS2",
+			"menu" : "MICROCHESS",
+			"key"  : "6",
+			"load" : "0x1000"
 		},
 
 
+		{
+			"comment" : "Small programs filling the gap before the Apple ][ monitor",
+			"type" : "copy",
+			"path" : "software/MEMORYTEST",
+			"patch": "patches/8KMEMTEST",
+			"menu" : "8K MEMORY TEST",
+			"load" : "0x0280",
+			"key"  : "A",
+			"adrs" : "0x7000"
+		},
+		{
+			"comment" : "CELLULAR: Cellular Automata is at 0x0300",
+			"type" : "copy",
+			"path" : "software/CELLULAR",
+			"menu" : "CELLULAR",
+			"key"  : "8",
+			"load" : "0x0300"
+		},
 		{
 			"comment" : "Apple ][ monitor",
 			"type" : "exec",
@@ -127,20 +121,13 @@
 
 
 		{
-			"type" : "copy",
-			"path" : "software/MICROCHESS2",
-			"menu" : "MICROCHESS",
-			"key"  : "6",
-			"load" : "0x1000",
-			"adrs" : "0x8000"
-		},
-		{
 			"comment" : "Lunar Lander",
 			"type" : "copy",
 			"path" : "software/LUNARLANDER",
 			"menu" : "LUNAR LANDER",
 			"key"  : "3",
-			"load" : "0x0300"
+			"load" : "0x0300",
+			"adrs" : "0x8000"
 		},
 		{
 			"comment" : "Mastermind is at 0x0300",
@@ -157,6 +144,13 @@
 			"menu" : "MANDELBROT",
 			"key"  : "M",
 			"load" : "0x0280"
+		},
+		{
+			"type" : "copy",
+			"path" : "src/LITTLETOWER",
+			"menu" : "LITTLE TOWER",
+			"key"  : "4",
+			"load" : "0x0300"
 		},
 
 
